@@ -1,0 +1,24 @@
+{
+  "name": "kemra102-auditd",
+  "version": "0.1.0",
+  "author": "kemra102",
+  "summary": "Manage the audit daemon and it's rules.",
+  "license": "BSD-2-Clause",
+  "source": "https://github.com/kemra102/puppet-auditd",
+  "project_page": "https://github.com/kemra102/puppet-auditd",
+  "issues_url": "https://github.com/kemra102/puppet-auditd/issues",
+  "tags": ["audit", "auditd", "auditing", "monitoring", "accounting", "logging", "logs"],
+  "requirements": [
+    {
+      "name": "pe",
+      "version_requirement": "3.x"
+    },
+    {
+      "name": "puppet",
+      "version_requirement": "3.x"
+    }
+  ],
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}

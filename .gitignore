@@ -1,0 +1,6 @@
+# Ignore puppet module packages
+pkg/
+
+# Tmp files
+.DS_Store
+.swp

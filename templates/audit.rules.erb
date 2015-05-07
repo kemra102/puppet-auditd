@@ -1,0 +1,18 @@
+#
+# This file is managed by Puppet.
+#
+
+# Control rules
+<% @control_rules.each do |rule| -%>
+<%= rule %>
+<% end -%>
+
+# File System rules
+<% @fs_rules.each do |rule| -%>
+<%= rule %>
+<% end -%>
+
+# System Call rules
+<% @systemcall_rules.each do |rule| -%>
+<%= rule %>
+<% end -%>
