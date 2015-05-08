@@ -53,8 +53,35 @@ Config file settings can be changed as required:
 
 ```puppet
 class { 'auditd':
-
+  log_file         => '/var/log/audit.log',
+  control_rules    => [ '-D', '-b 1024' ],
+  fs_rules         => [ '-w /etc/passwd -p wa -k identity' ],
+  systemcall_rules => [
+    '-a always,exit -S adjtimex -S settimeofday -S stime -k time-change',
+    '-a always,exit -S clock_settime -k time-change',
+    '-a always,exit -S sethostname -S setdomainname -k system-locale',
+  ],
 }
+```
+
+This changes the path of the log file in the main config then sets several rules of varying types and quantities.
+
+You can also do this in Hiera:
+
+```yaml
+---
+classes:
+  - auditd
+auditd::log_file: '/var/log/audit.log'
+auditd::control_rules:
+  - '-D'
+  - '-b 1024'
+auditd::fs_rules:
+  - '-w /etc/passwd -p wa -k identity'
+auditd::systemcall_rules:
+  - '-a always,exit -S adjtimex -S settimeofday -S stime -k time-change'
+  - '-a always,exit -S clock_settime -k time-change'
+  - '-a always,exit -S sethostname -S setdomainname -k system-locale'
 ```
 
 ## Reference
@@ -67,9 +94,6 @@ class { 'auditd':
 
 #### Private Classes
 
-* `::auditd::install`: Manages installation of the auditd package.
-* `::auditd::config`: Manages both the main config file & the rules file.
-* `::auditd::service`: Manages the auditd service
 * `::auditd::params`: Parameter class that other classes inherit from.
 
 ### Global Parameters
@@ -153,7 +177,7 @@ Default: `none`
 
 This is the admin defined string that identifies the machine if user is given as the name_format option.
 
-Default: `${::domain}`
+Default: `${::hostname}`
 
 #### `max_log_file`
 
@@ -195,19 +219,19 @@ Default: `50`
 
 This parameter tells the system what action to take when the system has detected that it is low on disk space. Valid values are ignore, syslog, email, suspend, single, and halt. If set to ignore, the audit daemon does nothing. Syslog means that it will issue a warning to syslog. Email means that it will send a warning to the email account specified in action_mail_acct as well as sending the message to syslog. Suspend will cause the audit daemon to stop writing records to the disk. The daemon will still be alive. The single option will cause the audit daemon to put the computer system in single user mode. halt option will cause the audit daemon to shutdown the computer system.
 
-Default: `SUSPEND`
+Default: `suspend`
 
 #### `disk_full_action`
 
 This parameter tells the system what action to take when the system has detected that the partition to which log files are written has become full. Valid values are ignore, syslog, suspend, single, and halt. If set to ignore, the audit daemon does nothing. Syslog means that it will issue a warning to syslog. Suspend will cause the audit daemon to stop writing records to the disk. The daemon will still be alive. The single option will cause the audit daemon to put the computer system in single user mode. halt option will cause the audit daemon to shutdown the computer system.
 
-Default: `SUSPEND`
+Default: `suspend`
 
 ### `disk_error_action`
 
 This parameter tells the system what action to take whenever there is an error detected when writing audit events to disk or rotating logs. Valid values are ignore, syslog, suspend, single, and halt. If set to ignore, the audit daemon does nothing. Syslog means that it will issue a warning to syslog. Suspend will cause the audit daemon to stop writing records to the disk. The daemon will still be alive. The single option will cause the audit daemon to put the computer system in single user mode. halt option will cause the audit daemon to shutdown the computer system.
 
-Default: `SUSPEND`
+Default: `suspend`
 
 #### `tcp_listen_port`
 
@@ -289,7 +313,19 @@ Default: `[]`
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
+Tested on:
+
+* CentOS 5/6/7
+* Debian 6/7/8
+* Ubuntu 12.04/14.04
+
+Should also work without modification on:
+
+* RHEL, Scientific Linux & Oracle Linux 5/6/7
+* Amazon Linux
+* None LTS Ubuntu releases
+
+Other distros should be easily supported, they just need some addtitional code and testing.
 
 ## Development
 
