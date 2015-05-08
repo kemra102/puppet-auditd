@@ -29,7 +29,7 @@ class auditd::config (
   $tcp_client_ports        = $::auditd::params::tcp_client_ports,
   $tcp_client_max_idle     = $::auditd::params::tcp_client_max_idle,
   $enable_krb5             = $::auditd::params::enable_krb5,
-  $krb5_principal          = $::auditd::params::krb5_principle,
+  $krb5_principal          = $::auditd::params::krb5_principal,
   $krb5_key_file           = $::auditd::params::krb5_key_file,
 
   # Audit rules
