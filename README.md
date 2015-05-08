@@ -53,7 +53,7 @@ Config file settings can be changed as required:
 
 ```puppet
 class { 'auditd':
-  
+
 }
 ```
 
@@ -149,9 +149,9 @@ This option controls how computer node names are  inserted  into the  audit  eve
 
 Default: `none`
 
-#### `name`
+#### `admin`
 
-This is the admin defined string that identifies the machine  if user is given as the name_format option.
+This is the admin defined string that identifies the machine if user is given as the name_format option.
 
 Default: `${::domain}`
 
