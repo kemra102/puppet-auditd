@@ -39,8 +39,6 @@ class auditd (
 
   $package_name            = $::auditd::params::package_name,
 
-  $rules_path              = $::auditd::params::rules_path,
-
   # Config file variables
   $log_file                = $::auditd::params::log_file,
   $log_format              = $::auditd::params::log_format,
@@ -84,8 +82,6 @@ class auditd (
 
   # Validate all our variables
   validate_string($package_name)
-
-  validate_absolute_path($rules_path)
 
   validate_absolute_path($log_file)
   validate_re($log_format, '^(RAW|NOLOG)$',
@@ -153,7 +149,7 @@ class auditd (
     ensure => 'present',
     before => [
       File['/etc/audit/auditd.conf'],
-      File["$rules_path"],
+      File['/etc/audit/audit.rules'],
     ],
   }
 
@@ -161,7 +157,7 @@ class auditd (
   file { '/etc/audit/auditd.conf':
     content => template('auditd/auditd.conf.erb'),
   }
-  file { $rules_path:
+  file { '/etc/audit/audit.rules':
     content => template('auditd/audit.rules.erb'),
   }
 
@@ -175,7 +171,7 @@ class auditd (
       stop      => $service_stop,
       subscribe => [
         File['/etc/audit/auditd.conf'],
-        File["${rules_path}"],
+        File['/etc/audit/audit.rules'],
       ],
     }
   }

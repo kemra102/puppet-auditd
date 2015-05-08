@@ -7,7 +7,6 @@ class auditd::params {
   case $::osfamily {
     'Debian': {
       $package_name = 'auditd'
-      $rules_path   = '/etc/audit/audit.rules'
 
       case $::lsbmajdistrelease {
         '8': {
@@ -24,11 +23,9 @@ class auditd::params {
       $package_name = 'audit'
 
       if versioncmp($::operatingsystemrelease, '7') >= 0 {
-        $rules_path      = '/etc/audit/rules.d/audit.rules'
         $service_restart = '/usr/libexec/initscripts/legacy-actions/auditd/restart'
         $service_stop    = '/usr/libexec/initscripts/legacy-actions/auditd/stop'
       } else {
-        $rules_path      = '/etc/audit/audit.rules'
         $service_restart = '/etc/init.d/auditd restart'
         $service_stop    = '/etc/init.d/auditd stop'
       }
