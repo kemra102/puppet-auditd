@@ -11,8 +11,8 @@ class auditd::params {
 
       case $::lsbmajdistrelease {
         '8': {
-          $service_restart = '/usr/libexec/initscripts/legacy-actions/auditd/restart'
-          $service_stop    = '/usr/libexec/initscripts/legacy-actions/auditd/stop'
+          $service_restart = '/bin/systemctl restart auditd'
+          $service_stop    = '/bin/systemctl stop auditd'
         }
         default: {
           $service_restart = '/etc/init.d/auditd restart'
