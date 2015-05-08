@@ -76,7 +76,9 @@ class auditd (
   $fs_rules                = $::auditd::params::fs_rules,
   $systemcall_rules        = $::auditd::params::systemcall_rules,
 
-  $manage_service = $::auditd::params::manage_service,
+  $manage_service          = $::auditd::params::manage_service,
+  $service_restart         = $::auditd::params::service_restart,
+  $service_stop            = $::auditd::params::service_stop,
 
 ) inherits auditd::params {
 
@@ -135,6 +137,8 @@ class auditd (
   validate_array($systemcall_rules)
 
   validate_bool($manage_service)
+  validate_string($service_restart)
+  validate_string($service_stop)
 
   # Set some file defaults
   File {
