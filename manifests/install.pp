@@ -1,6 +1,7 @@
 class auditd::install (
 
-  $package_name            = $::auditd::params::package_name,
+  $package_name = $::auditd::params::package_name,
+  $rules_path   = $::auditd::params::rules_path,
 
 ) inherits auditd::params {
 
