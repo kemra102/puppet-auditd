@@ -41,9 +41,9 @@ class auditd::params {
   $space_left_action       = 'syslog'
   $action_mail_acct        = 'root'
   $admin_space_left        = '50'
-  $admin_space_left_action = 'SUSPEND'
-  $disk_full_action        = 'SUSPEND'
-  $disk_error_action       = 'SUSPEND'
+  $admin_space_left_action = 'suspend'
+  $disk_full_action        = 'suspend'
+  $disk_error_action       = 'suspend'
   $tcp_listen_port         = undef
   $tcp_listen_queue        = '5'
   $tcp_max_per_addr        = '1'
