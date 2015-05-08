@@ -49,7 +49,7 @@ class auditd::params {
   $disp_qos                = 'lossy'
   $dispatcher              = '/sbin/audispd'
   $name_format             = 'none'
-  $admin                   = "${::domain}"
+  $admin                   = "${::hostname}"
   $max_log_file            = '6'
   $max_log_file_action     = 'rotate'
   $space_left              = '75'
