@@ -13,7 +13,7 @@ class auditd::config (
   $disp_qos                = $::auditd::params::disp_qos,
   $dispatcher              = $::auditd::params::dispatcher,
   $name_format             = $::auditd::params::name_format,
-  $name                    = $::auditd::params::name,
+  $admin                   = $::auditd::params::admin,
   $max_log_file            = $::auditd::params::max_log_file,
   $max_log_file_action     = $::auditd::params::max_log_file_action,
   $space_left              = $::auditd::params::space_left,
@@ -55,7 +55,7 @@ class auditd::config (
   validate_absolute_path($dispatcher)
   validate_re($name_format, '^(none|hostname|fqd|numeric|user)$',
     "${name_format} is not supported for name_format. Allowed values are 'none', 'hostname', 'fqd', 'numeric' and 'user'.")
-  validate_string($name)
+  validate_string($admin)
   validate_integer($max_log_file)
   validate_re($max_log_file_action, '^(ignore|syslog|suspend|rotate|keep_logs)$',
     "${max_log_file_action} is not supported for max_log_file_action. Allowed values are 'ignore', 'syslog', 'suspend', 'rotate' and 'keep_logs'.")
