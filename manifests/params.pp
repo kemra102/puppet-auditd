@@ -9,7 +9,7 @@ class auditd::params {
       $package_name = 'auditd'
       $rules_path   = '/etc/audit/audit.rules'
 
-      case $::lsbdistrelease {
+      case $::lsbmajdistrelease {
         '8': {
           $service_restart = '/usr/libexec/initscripts/legacy-actions/auditd/restart'
           $service_stop    = '/usr/libexec/initscripts/legacy-actions/auditd/stop'
