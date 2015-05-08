@@ -8,14 +8,29 @@ class auditd::params {
     'Debian': {
       $package_name = 'auditd'
       $rules_path   = '/etc/audit/audit.rules'
+
+      case $::lsbdistrelease {
+        '8': {
+          $service_restart = '/usr/libexec/initscripts/legacy-actions/auditd/restart'
+          $service_stop    = '/usr/libexec/initscripts/legacy-actions/auditd/stop'
+        }
+        default: {
+          $service_restart = '/etc/init.d/auditd restart'
+          $service_stop    = '/etc/init.d/auditd stop'
+        }
+      }
     }
     'RedHat': {
       $package_name = 'audit'
 
       if versioncmp($::operatingsystemrelease, '7') >= 0 {
-        $rules_path = '/etc/audit/rules.d/audit.rules'
+        $rules_path      = '/etc/audit/rules.d/audit.rules'
+        $service_restart = '/usr/libexec/initscripts/legacy-actions/auditd/restart'
+        $service_stop    = '/usr/libexec/initscripts/legacy-actions/auditd/stop'
       } else {
-        $rules_path = '/etc/audit/audit.rules'
+        $rules_path      = '/etc/audit/audit.rules'
+        $service_restart = '/etc/init.d/auditd restart'
+        $service_stop    = '/etc/init.d/auditd stop'
       }
     }
     default: {
