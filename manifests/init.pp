@@ -167,8 +167,8 @@ class auditd (
       ensure    => 'running',
       enable    => true,
       hasstatus => true,
-      restart   => ${service_restart},
-      stop      => ${service_stop}
+      restart   => $service_restart,
+      stop      => $service_stop,
       subscribe => [
         File['/etc/audit/auditd.conf'],
         File["${rules_path}"],
