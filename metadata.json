@@ -29,6 +29,10 @@
     "operatingsystem": "Amazon"
     },
     {
+    "operatingsystem": "Fedora",
+    "operatingsystemrelease": [ "20", "21" ]
+    },
+    {
     "operatingsystem": "Ubuntu",
     "operatingsystemrelease": [ "12.04", "14.04" ]
     },
