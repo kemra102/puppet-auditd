@@ -106,6 +106,7 @@ Defaults:
 
 * Debian osfamily: `auditd`
 * RedHat osfamily: `audit`
+* Gentoo osfamily: `audit`
 
 #### `manage_service`
 
