@@ -30,6 +30,11 @@ class auditd::params {
         $service_stop    = '/etc/init.d/auditd stop'
       }
     }
+    'Gentoo': {
+      $package_name    = 'audit'
+      $service_restart = '/etc/init.d/auditd restart'
+      $service_stop    = '/etc/init.d/auditd stop'
+    }
     default: {
       fail("${::osfamily} is not supported by auditd")
     }
