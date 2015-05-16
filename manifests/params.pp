@@ -30,6 +30,9 @@ class auditd::params {
         $service_stop    = '/etc/init.d/auditd stop'
       }
     }
+    'Archlinux': {
+      $package_name = 'audit'
+    }
     'Gentoo': {
       $package_name    = 'audit'
       $service_restart = '/etc/init.d/auditd restart'

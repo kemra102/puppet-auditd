@@ -31,6 +31,12 @@ This module handles installation of the auditd daemon, manages its main configur
 * Rules file.
 * **auditd** service.
 
+### Setup Requirements
+
+Arch Linux does not compile in auditing support to their Kernel by default. To enable support you will have to enable this support as per [this Arch Wiki page](https://wiki.archlinux.org/index.php/Audit_framework#Installation).
+
+Other supported Linux distros should not need any special setup.
+
 ### Beginning with auditd
 
 The most basic set-up you could achieve with this module looks something like this:
@@ -319,6 +325,7 @@ Tested on:
 * Fedora 20/21
 * Debian 6/7/8
 * Ubuntu 12.04/14.04
+* Arch Linux
 * Gentoo
 
 Should also work without modification on:
