@@ -22,7 +22,7 @@ class auditd::params {
     'RedHat': {
       $package_name = 'audit'
 
-      if versioncmp($::operatingsystemrelease, '7') >= 0 {
+      if versioncmp($::operatingsystemrelease, '7') >= 0 and $::operatingsystem != 'Amazon' {
         $service_restart = '/usr/libexec/initscripts/legacy-actions/auditd/restart'
         $service_stop    = '/usr/libexec/initscripts/legacy-actions/auditd/stop'
       } else {
