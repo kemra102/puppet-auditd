@@ -325,6 +325,7 @@ Tested on:
 
 * CentOS 5/6/7
 * Fedora 20/21
+* Amazon Linux
 * Debian 6/7/8
 * Ubuntu 12.04/14.04
 * Arch Linux
@@ -333,7 +334,6 @@ Tested on:
 Should also work without modification on:
 
 * RHEL, Scientific Linux & Oracle Linux 5/6/7
-* Amazon Linux
 * None LTS Ubuntu releases
 
 Other distros should be easily supported, they just need some addtitional code and testing.
