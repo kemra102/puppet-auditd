@@ -31,7 +31,9 @@ class auditd::params {
       }
     }
     'Archlinux': {
-      $package_name = 'audit'
+      $package_name    = 'audit'
+      $service_restart = '/usr/bin/kill -s SIGHUP $(cat /var/run/auditd.pid)'
+      $service_stop    = '/usr/bin/kill -s SIGTERM $(cat /var/run/auditd.pid)'
     }
     'Gentoo': {
       $package_name    = 'audit'
