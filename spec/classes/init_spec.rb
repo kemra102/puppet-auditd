@@ -43,4 +43,17 @@ describe 'auditd', :type => :class do
       })
     }
   end
+  context 'when called with no parameters on Debian 8' do
+    let (:facts) {{
+      :osfamily          => 'Debian',
+      :lsbmajdistrelease => '8',
+    }}
+    it {
+      should contain_package('auditd')
+      should contain_service('auditd').with({
+        'restart' => '/bin/systemctl restart auditd',
+        'stop'    => '/bin/systemctl stop auditd',
+      })
+    }
+  end
 end
