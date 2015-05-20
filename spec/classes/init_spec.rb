@@ -82,4 +82,16 @@ describe 'auditd', :type => :class do
       })
     }
   end
+  context 'default parameters on Gentoo' do
+    let (:facts) {{
+      :osfamily => 'Gentoo',
+    }}
+    it {
+      should contain_package('audit')
+      should contain_service('auditd').with({
+        'restart' => '/etc/init.d/auditd restart',
+        'stop'    => '/etc/init.d/auditd stop',
+      })
+    }
+  end
 end
