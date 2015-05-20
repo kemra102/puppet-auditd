@@ -56,4 +56,18 @@ describe 'auditd', :type => :class do
       })
     }
   end
+  context 'when called with no parameteres on Ubuntu 14.04' do
+    let (:facts) {{
+      :osfamily          => 'Debian',
+      :operatingsystem   => 'Ubuntu',
+      :lsbmajdistrelease => '14.04',
+    }}
+    it {
+      should contain_package('auditd')
+      should contain_service('auditd').with({
+        'restart' => '/etc/init.d/auditd restart',
+        'stop'    => '/etc/init.d/auditd stop',
+      })
+    }
+  end
 end
