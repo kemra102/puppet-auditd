@@ -1,6 +1,21 @@
-# Ignore puppet module packages
-pkg/
-
-# Tmp files
+## MAC OS
 .DS_Store
-.swp
+
+## TEXTMATE
+*.tmproj
+tmtags
+
+## EMACS
+*~
+\#*
+.\#*
+
+## VIM
+*.swp
+tags
+
+# puppet module build
+pkg
+
+# testing
+spec/fixtures
