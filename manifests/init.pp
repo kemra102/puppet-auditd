@@ -157,8 +157,18 @@ class auditd (
   file { '/etc/audit/auditd.conf':
     content => template('auditd/auditd.conf.erb'),
   }
-  file { '/etc/audit/audit.rules':
-    content => template('auditd/audit.rules.erb'),
+
+  concat { $auditd::params::rules_file:
+    mode  => '0600',
+    owner => 'root',
+    group => 'root',
+    ensure_newline => true,
+  }
+
+  concat::fragment{ 'auditd_rules_module':
+    target   => $auditd::params::rules_file,
+    content  => template('auditd/audit.rules.erb'),
+    order    => '00'
   }
 
   # Manage the service

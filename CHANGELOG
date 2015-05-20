@@ -1,2 +1,4 @@
+v0.1.1:
+  - Added defined type to allow rule addition from other modules.
 v0.1.0:
   - Initial release.
