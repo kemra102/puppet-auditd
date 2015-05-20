@@ -1,6 +1,6 @@
 require 'spec_helper'
 describe 'auditd', :type => :class do
-  context 'when called with no parameters on RedHat 7' do
+  context 'default parameters on RedHat 7' do
     let (:facts) {{
       :osfamily               => 'RedHat',
       :operatingsystemrelease => '7',
@@ -31,7 +31,7 @@ describe 'auditd', :type => :class do
       })
     }
   end
-  context 'when called with no parameters on RedHat 6' do
+  context 'default parameters on RedHat 6' do
     let (:facts) {{
       :osfamily               => 'RedHat',
       :operatingsystemrelease => '6',
@@ -43,7 +43,7 @@ describe 'auditd', :type => :class do
       })
     }
   end
-  context 'when called with no parameters on Debian 8' do
+  context 'default parameters on Debian 8' do
     let (:facts) {{
       :osfamily          => 'Debian',
       :lsbmajdistrelease => '8',
@@ -56,7 +56,7 @@ describe 'auditd', :type => :class do
       })
     }
   end
-  context 'when called with no parameteres on Ubuntu 14.04' do
+  context 'default parameteres on Ubuntu 14.04' do
     let (:facts) {{
       :osfamily          => 'Debian',
       :operatingsystem   => 'Ubuntu',
@@ -67,6 +67,18 @@ describe 'auditd', :type => :class do
       should contain_service('auditd').with({
         'restart' => '/etc/init.d/auditd restart',
         'stop'    => '/etc/init.d/auditd stop',
+      })
+    }
+  end
+  context 'default parameters on Archlinux' do
+    let (:facts) {{
+      :osfamily => 'Archlinux',
+    }}
+    it {
+      should contain_package('audit')
+      should contain_service('auditd').with({
+        'restart' => '/usr/bin/kill -s SIGHUP $(cat /var/run/auditd.pid)',
+        'stop'    => '/usr/bin/kill -s SIGTERM $(cat /var/run/auditd.pid)',
       })
     }
   end
