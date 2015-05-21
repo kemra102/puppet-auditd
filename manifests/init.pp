@@ -43,7 +43,6 @@ class auditd (
   $log_file                = $::auditd::params::log_file,
   $log_format              = $::auditd::params::log_format,
   $log_group               = $::auditd::params::log_group,
-  $rules_file		   = $::auditd::params::rules_file,
   $priority_boost          = $::auditd::params::priority_boost,
   $flush                   = $::auditd::params::flush,
   $freq                    = $::auditd::params::freq,
@@ -69,6 +68,9 @@ class auditd (
   $enable_krb5             = $::auditd::params::enable_krb5,
   $krb5_principal          = $::auditd::params::krb5_principal,
   $krb5_key_file           = $::auditd::params::krb5_key_file,
+
+  # Path fo Audit rules file
+  $rules_file              = $::auditd::params::rules_file,
 
   # Audit rules
   $control_rules           = $::auditd::params::control_rules,
@@ -129,6 +131,8 @@ class auditd (
     validate_abolute_path($krb5_key_file)
   }
 
+  validate_absolute_path($rules_file)
+
   validate_array($control_rules)
   validate_array($fs_rules)
   validate_array($systemcall_rules)
@@ -139,8 +143,8 @@ class auditd (
 
   # Install package
   package { 'audit':
-    name   => $package_name,
     ensure => 'present',
+    name   => $package_name,
   }
 
   # Configure required config files
