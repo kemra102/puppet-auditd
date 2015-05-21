@@ -1,4 +1,4 @@
-# auditd
+# auditd [![Build Status](https://travis-ci.org/kemra102/puppet-auditd.svg?branch=master)](https://travis-ci.org/kemra102/puppet-auditd)
 
 #### Table of Contents
 
