@@ -1,8 +1,6 @@
-# Defined type for an audit rule fragment
-#
 #  params:
-#    - content: The file source
-#    - order:   Relative order of this fragment
+##   content: Rule definition
+##   order:   Relative order of this rule
 
 define auditd::rule($content='', $order=10) {
   if $content == '' {

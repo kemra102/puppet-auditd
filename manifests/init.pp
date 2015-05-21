@@ -164,13 +164,13 @@ class auditd (
     owner => 'root',
     group => 'root',
     ensure_newline => true,
-    before => Service['auditd']
+    before => Service['auditd'],
   }
 
   concat::fragment{ 'auditd_rules_module':
     target   => $auditd::params::rules_file,
     content  => template('auditd/audit.rules.erb'),
-    order    => '00'
+    order    => '00',
   }
 
   # Manage the service
