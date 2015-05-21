@@ -92,10 +92,9 @@ auditd::systemcall_rules:
 
 ### Using the module via a defined type in other modules
 
-If you have the use case where you would like to add auditing rules from outside modules, you may use the defined type 'auditd::rule'.
+If you have the use case where you would like to add auditing rules from outside modules, you may use the defined type `auditd::rule`.
 
 ```puppet
-
 include `your auditd module or class`
 
 auditd::rule {'RuleID':
@@ -104,10 +103,9 @@ auditd::rule {'RuleID':
 }
 ```
 
-Example
+Example:
 
 ```puppet
-
 include `custom_auditd`
 
 auditd::rule {'/var/log/sssd/sssd.log':

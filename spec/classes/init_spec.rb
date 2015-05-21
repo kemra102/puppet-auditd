@@ -8,6 +8,7 @@ describe 'auditd', :type => :class do
     it { 
       should contain_class('auditd')
       should contain_package('audit').with({
+        'name'   => 'audit',
         'ensure' => 'present',
       })
       should contain_file('/etc/audit/auditd.conf').with({
@@ -16,11 +17,12 @@ describe 'auditd', :type => :class do
         'group'  => 'root',
         'mode'   => '0640',
       })
-      should contain_file('/etc/audit/audit.rules').with({
-        'ensure' => 'file',
-        'owner'  => 'root',
-        'group'  => 'root',
-        'mode'   => '0640',
+      should contain_concat('audit.rules').with({
+        'path'           => '/etc/audit/audit.rules',
+        'owner'          => 'root',
+        'group'          => 'root',
+        'mode'           => '0640',
+        'ensure_newline' => 'true',
       })
       should contain_service('auditd').with({
         'ensure'    => 'running',
@@ -49,7 +51,9 @@ describe 'auditd', :type => :class do
       :lsbmajdistrelease => '8',
     }}
     it {
-      should contain_package('auditd')
+      should contain_package('audit').with({
+        'name' => 'auditd',
+      })
       should contain_service('auditd').with({
         'restart' => '/bin/systemctl restart auditd',
         'stop'    => '/bin/systemctl stop auditd',
@@ -63,7 +67,9 @@ describe 'auditd', :type => :class do
       :lsbmajdistrelease => '14.04',
     }}
     it {
-      should contain_package('auditd')
+      should contain_package('audit').with({
+        'name' => 'auditd',
+      })
       should contain_service('auditd').with({
         'restart' => '/etc/init.d/auditd restart',
         'stop'    => '/etc/init.d/auditd stop',
@@ -75,7 +81,9 @@ describe 'auditd', :type => :class do
       :osfamily => 'Archlinux',
     }}
     it {
-      should contain_package('audit')
+      should contain_package('audit').with({
+        'name' => 'audit',
+      })
       should contain_service('auditd').with({
         'restart' => '/usr/bin/kill -s SIGHUP $(cat /var/run/auditd.pid)',
         'stop'    => '/usr/bin/kill -s SIGTERM $(cat /var/run/auditd.pid)',
@@ -87,7 +95,9 @@ describe 'auditd', :type => :class do
       :osfamily => 'Gentoo',
     }}
     it {
-      should contain_package('audit')
+      should contain_package('audit').with({
+        'name' => 'audit',
+      })
       should contain_service('auditd').with({
         'restart' => '/etc/init.d/auditd restart',
         'stop'    => '/etc/init.d/auditd stop',

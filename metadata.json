@@ -39,6 +39,12 @@
     {
     "operatingsystem": "Debian",
     "operatingsystemrelease": [ "6", "7", "8" ]
+    },
+    {
+    "operatingsystem": "Archlinux"
+    },
+    {
+    "operatingsystem": "Gentoo"
     }
   ],
   "requirements": [
@@ -52,6 +58,7 @@
     }
   ],
   "dependencies": [
-    {"name":"puppetlabs-stdlib","version_requirement":">= 3.2.0"}
+    {"name":"puppetlabs-stdlib","version_requirement":">= 3.2.0"},
+    {"name":"puppetlabs-concat","version_requirement":">= 1.1.0"}
   ]
 }

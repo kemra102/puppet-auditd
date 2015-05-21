@@ -137,40 +137,37 @@ class auditd (
   validate_string($service_restart)
   validate_string($service_stop)
 
-  # Set some file defaults
-  File {
-    ensure => 'file',
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0640',
-  }
-
   # Install package
-  package { $package_name:
+  package { 'audit':
+    name   => $package_name,
     ensure => 'present',
-    before => [
-      File['/etc/audit/auditd.conf'],
-      File['/etc/audit/audit.rules'],
-    ],
   }
 
   # Configure required config files
   file { '/etc/audit/auditd.conf':
+    ensure  => 'file',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0640',
     content => template('auditd/auditd.conf.erb'),
+    require => Package['audit'],
+    notify  => Service['auditd'],
   }
 
-  concat { $rules_file:
-    mode  => '0600',
-    owner => 'root',
-    group => 'root',
+  concat { 'audit.rules':
+    path           => $rules_file,
+    owner          => 'root',
+    group          => 'root',
+    mode           => '0640',
     ensure_newline => true,
-    before => Service['auditd'],
+    require        => Package['audit'],
+    notify         => Service['auditd'],
   }
 
   concat::fragment{ 'auditd_rules_module':
-    target   => $auditd::params::rules_file,
-    content  => template('auditd/audit.rules.erb'),
-    order    => '00',
+    target  => 'audit.rules',
+    content => template('auditd/audit.rules.erb'),
+    order   => '00',
   }
 
   # Manage the service
@@ -181,10 +178,6 @@ class auditd (
       hasstatus => true,
       restart   => $service_restart,
       stop      => $service_stop,
-      subscribe => [
-        File['/etc/audit/auditd.conf'],
-        File['/etc/audit/audit.rules'],
-      ],
     }
   }
 
