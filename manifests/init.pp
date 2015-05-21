@@ -43,6 +43,7 @@ class auditd (
   $log_file                = $::auditd::params::log_file,
   $log_format              = $::auditd::params::log_format,
   $log_group               = $::auditd::params::log_group,
+  $rules_file		   = $::auditd::params::rules_file,
   $priority_boost          = $::auditd::params::priority_boost,
   $flush                   = $::auditd::params::flush,
   $freq                    = $::auditd::params::freq,
@@ -158,11 +159,12 @@ class auditd (
     content => template('auditd/auditd.conf.erb'),
   }
 
-  concat { $auditd::params::rules_file:
+  concat { $rules_file:
     mode  => '0600',
     owner => 'root',
     group => 'root',
     ensure_newline => true,
+    before => Service['auditd']
   }
 
   concat::fragment{ 'auditd_rules_module':
