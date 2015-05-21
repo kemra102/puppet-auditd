@@ -1,6 +1,6 @@
 {
   "name": "kemra102-auditd",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "kemra102",
   "summary": "Manage the audit daemon and it's rules.",
   "license": "BSD-2-Clause",
@@ -39,9 +39,6 @@
     {
     "operatingsystem": "Debian",
     "operatingsystemrelease": [ "6", "7", "8" ]
-    },
-    {
-    "operatingsystem": "Gentoo",
     }
   ],
   "requirements": [

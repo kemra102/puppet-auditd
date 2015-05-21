@@ -49,6 +49,7 @@ class auditd::params {
   $log_file                = '/var/log/audit/audit.log'
   $log_format              = 'RAW'
   $log_group               = 'root'
+  $rules_file              = '/etc/audit/audit.rules'
   $priority_boost          = '4'
   $flush                   = 'incremental'
   $freq                    = '20'

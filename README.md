@@ -90,6 +90,31 @@ auditd::systemcall_rules:
   - '-a always,exit -S sethostname -S setdomainname -k system-locale'
 ```
 
+### Using the module via a defined type in other modules
+
+If you have the use case where you would like to add auditing rules from outside modules, you may use the defined type 'auditd::rule'.
+
+```puppet
+
+include `your auditd module or class`
+
+auditd::rule {'RuleID':
+ content => 'rule to add to audit.rules',
+ order   => 'rule number',
+}
+```
+
+Example
+
+```puppet
+
+include `custom_auditd`
+
+auditd::rule {'/var/log/sssd/sssd.log':
+  content => '-w /var/log/sssd/sssd.log -p wa -k identity',
+  order   => '01',
+}
+
 ## Reference
 
 ### Classes
