@@ -1,6 +1,6 @@
-#  params:
-##   content: Rule definition
-##   order:   Relative order of this rule
+##  params:
+##    content: Rule definition
+##    order:   Relative order of this rule
 
 define auditd::rule($content='', $order=10) {
   if $content == '' {
