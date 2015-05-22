@@ -112,6 +112,7 @@ auditd::rule {'/var/log/sssd/sssd.log':
   content => '-w /var/log/sssd/sssd.log -p wa -k identity',
   order   => '01',
 }
+```
 
 ## Reference
 
