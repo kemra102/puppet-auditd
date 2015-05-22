@@ -45,6 +45,18 @@ describe 'auditd', :type => :class do
       })
     }
   end
+  context 'default parameters on Amazon Linux' do
+    let (:facts) {{
+      :osfamily        => 'RedHat',
+      :operatingsystem => 'Amazon'
+    }}
+    it {
+      should contain_service('auditd').with({
+        'restart' => '/etc/init.d/auditd restart',
+        'stop'    => '/etc/init.d/auditd stop',
+      })
+    }
+  end
   context 'default parameters on Debian 8' do
     let (:facts) {{
       :osfamily          => 'Debian',
