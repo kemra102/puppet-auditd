@@ -81,6 +81,5 @@ class auditd::params {
 
   # Variables for the audit rules
   $manage_audit_files      = true
-  $rules_file              = '/etc/audit/audit.rules'
 
 }

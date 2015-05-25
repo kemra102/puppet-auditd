@@ -69,8 +69,9 @@ class auditd (
   $krb5_principal          = $::auditd::params::krb5_principal,
   $krb5_key_file           = $::auditd::params::krb5_key_file,
 
-  # Path fo Audit rules file
+  # Variables for Audit files
   $rules_file              = $::auditd::params::rules_file,
+  $manage_audit_files      = $::auditd::params::manage_audit_files,
 
   $manage_service          = $::auditd::params::manage_service,
   $service_restart         = $::auditd::params::service_restart,
@@ -152,8 +153,8 @@ class auditd (
 
   if $manage_audit_files {
     file { '/etc/audit/rules.d':
-      ensure  => 'directory'
-      user    => 'root',
+      ensure  => 'directory',
+      owner   => 'root',
       group   => 'root',
       mode    => '0750',
       recurse => true,

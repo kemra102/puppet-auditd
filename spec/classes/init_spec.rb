@@ -17,12 +17,13 @@ describe 'auditd', :type => :class do
         'group'  => 'root',
         'mode'   => '0640',
       })
-      should contain_concat('audit.rules').with({
-        'path'           => '/etc/audit/audit.rules',
+      should contain_concat('/etc/audit/rules.d/puppet.rules').with({
+        'ensure'         => 'present',
         'owner'          => 'root',
         'group'          => 'root',
         'mode'           => '0640',
         'ensure_newline' => 'true',
+        'warn'           => 'true',
       })
       should contain_service('auditd').with({
         'ensure'    => 'running',
