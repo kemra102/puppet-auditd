@@ -127,6 +127,7 @@ class auditd (
   }
 
   validate_absolute_path($rules_file)
+  validate_bool($manage_audit_files)
 
   validate_bool($manage_service)
   validate_string($service_restart)
@@ -149,8 +150,19 @@ class auditd (
     notify  => Service['auditd'],
   }
 
-  concat { 'audit.rules':
-    path           => $rules_file,
+  if $manage_audit_files {
+    file { '/etc/audit/rules.d':
+      ensure  => 'directory'
+      user    => 'root',
+      group   => 'root',
+      mode    => '0750',
+      recurse => true,
+      purge   => true,
+    }
+  }
+
+  concat { $rules_file:
+    ensure         => 'present',
     owner          => 'root',
     group          => 'root',
     mode           => '0640',
@@ -161,7 +173,7 @@ class auditd (
   }
 
   # Manage the service
-  if $manage_service == true {
+  if $manage_service {
     service { 'auditd':
       ensure    => 'running',
       enable    => true,
