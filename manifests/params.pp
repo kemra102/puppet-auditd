@@ -78,9 +78,4 @@ class auditd::params {
   # Where to place Audit rules
   $rules_file              = '/etc/audit/audit.rules'
 
-  # Audit rules
-  $control_rules           = []
-  $fs_rules                = []
-  $systemcall_rules        = []
-
 }

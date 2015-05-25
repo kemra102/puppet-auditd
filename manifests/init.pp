@@ -72,11 +72,6 @@ class auditd (
   # Path fo Audit rules file
   $rules_file              = $::auditd::params::rules_file,
 
-  # Audit rules
-  $control_rules           = $::auditd::params::control_rules,
-  $fs_rules                = $::auditd::params::fs_rules,
-  $systemcall_rules        = $::auditd::params::systemcall_rules,
-
   $manage_service          = $::auditd::params::manage_service,
   $service_restart         = $::auditd::params::service_restart,
   $service_stop            = $::auditd::params::service_stop,
@@ -133,10 +128,6 @@ class auditd (
 
   validate_absolute_path($rules_file)
 
-  validate_array($control_rules)
-  validate_array($fs_rules)
-  validate_array($systemcall_rules)
-
   validate_bool($manage_service)
   validate_string($service_restart)
   validate_string($service_stop)
@@ -164,14 +155,9 @@ class auditd (
     group          => 'root',
     mode           => '0640',
     ensure_newline => true,
+    warn           => true,
     require        => Package['audit'],
     notify         => Service['auditd'],
-  }
-
-  concat::fragment{ 'auditd_rules_module':
-    target  => 'audit.rules',
-    content => template('auditd/audit.rules.erb'),
-    order   => '00',
   }
 
   # Manage the service

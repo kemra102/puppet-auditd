@@ -9,6 +9,9 @@ define auditd::rule($content='', $order=10) {
     $body = $content
   }
 
+  validate_integer($order)
+  validate_string($body)
+
   concat::fragment{ "auditd_fragment_${name}":
     target  => $auditd::params::rules_file,
     order   => $order,
