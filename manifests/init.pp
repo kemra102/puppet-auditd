@@ -159,12 +159,13 @@ class auditd (
       mode    => '0750',
       recurse => true,
       purge   => true,
-      before  => Concat["${rules_file}"],
+      before  => Concat['audit-file'],
     }
   }
 
-  concat { $rules_file:
+  concat { 'audit-file':
     ensure         => 'present',
+    path           => $rules_file,
     owner          => 'root',
     group          => 'root',
     mode           => '0640',
