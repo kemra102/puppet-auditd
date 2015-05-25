@@ -6,8 +6,9 @@ class auditd::params {
   # OS specific variables.
   case $::osfamily {
     'Debian': {
-      $package_name = 'auditd'
-      $rules_file   = '/etc/audit/audit.rules'
+      $package_name       = 'auditd'
+      $manage_audit_files = false
+      $rules_file         = '/etc/audit/audit.rules'
 
       case $::lsbmajdistrelease {
         '8': {
@@ -21,10 +22,12 @@ class auditd::params {
       }
     }
     'RedHat': {
-      $package_name = 'audit'
-      $rules_file   = '/etc/audit/rules.d/puppet.rules'
+      $package_name       = 'audit'
+      $manage_audit_files = true
+      $rules_file         = '/etc/audit/audit.rules'
 
       if versioncmp($::operatingsystemrelease, '7') >= 0 and $::operatingsystem != 'Amazon' {
+        $rules_file      = '/etc/audit/rules.d/puppet.rules'
         $service_restart = '/usr/libexec/initscripts/legacy-actions/auditd/restart'
         $service_stop    = '/usr/libexec/initscripts/legacy-actions/auditd/stop'
       } else {
@@ -33,16 +36,18 @@ class auditd::params {
       }
     }
     'Archlinux': {
-      $package_name    = 'audit'
-      $rules_file      = '/etc/audit/audit.rules'
-      $service_restart = '/usr/bin/kill -s SIGHUP $(cat /var/run/auditd.pid)'
-      $service_stop    = '/usr/bin/kill -s SIGTERM $(cat /var/run/auditd.pid)'
+      $package_name       = 'audit'
+      $manage_audit_files = false
+      $rules_file         = '/etc/audit/audit.rules'
+      $service_restart    = '/usr/bin/kill -s SIGHUP $(cat /var/run/auditd.pid)'
+      $service_stop       = '/usr/bin/kill -s SIGTERM $(cat /var/run/auditd.pid)'
     }
     'Gentoo': {
-      $package_name    = 'audit'
-      $rules_file      = '/etc/audit/audit.rules'
-      $service_restart = '/etc/init.d/auditd restart'
-      $service_stop    = '/etc/init.d/auditd stop'
+      $package_name       = 'audit'
+      $manage_audit_files = false
+      $rules_file         = '/etc/audit/audit.rules'
+      $service_restart    = '/etc/init.d/auditd restart'
+      $service_stop       = '/etc/init.d/auditd stop'
     }
     default: {
       fail("${::osfamily} is not supported by auditd")
@@ -78,8 +83,5 @@ class auditd::params {
   $enable_krb5             = 'no'
   $krb5_principal          = 'auditd'
   $krb5_key_file           = undef
-
-  # Variables for the audit rules
-  $manage_audit_files      = true
 
 }

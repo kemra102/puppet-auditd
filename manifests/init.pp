@@ -159,6 +159,7 @@ class auditd (
       mode    => '0750',
       recurse => true,
       purge   => true,
+      before  => Concat["${rules_file}"],
     }
   }
 
