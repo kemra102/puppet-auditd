@@ -2,3 +2,6 @@ v0.1.0:
   - Initial release.
 v0.1.1:
   - Added defined type to allow rule additions from other modules.
+v1.0.0:
+  - Moved to using defined type exclusively for audit rules.
+  - Fix rules path for EL7 systems (uses rules.d instead of audit.rules directly).
