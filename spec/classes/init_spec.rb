@@ -17,8 +17,9 @@ describe 'auditd', :type => :class do
         'group'  => 'root',
         'mode'   => '0640',
       })
-      should contain_concat('/etc/audit/rules.d/puppet.rules').with({
+      should contain_concat('audit-file').with({
         'ensure'         => 'present',
+        'path'           => '/etc/audit/rules.d/puppet.rules',
         'owner'          => 'root',
         'group'          => 'root',
         'mode'           => '0640',
