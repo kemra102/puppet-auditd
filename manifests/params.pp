@@ -24,13 +24,13 @@ class auditd::params {
     'RedHat': {
       $package_name       = 'audit'
       $manage_audit_files = true
-      $rules_file         = '/etc/audit/audit.rules'
 
       if versioncmp($::operatingsystemrelease, '7') >= 0 and $::operatingsystem != 'Amazon' {
         $rules_file      = '/etc/audit/rules.d/puppet.rules'
         $service_restart = '/usr/libexec/initscripts/legacy-actions/auditd/restart'
         $service_stop    = '/usr/libexec/initscripts/legacy-actions/auditd/stop'
       } else {
+        $rules_file      = '/etc/audit/audit.rules'
         $service_restart = '/etc/init.d/auditd restart'
         $service_stop    = '/etc/init.d/auditd stop'
       }
