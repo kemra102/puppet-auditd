@@ -6,25 +6,234 @@
 #
 # Document parameters here.
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
+# [*package_name*]
+#   The package name for auditd.
 #
-# === Variables
+# [*manage_service*]
+#   Whether the auditd service should be managed by Puppet.
 #
-# Here you should define a list of variables that this module would require.
+# [*manage_audit_files*]
+#   If true then /etc/audit/rules.d/ will be managed by this module.
+#   This means any rules not created using this module's defined type
+#   will be removed.
 #
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
+# [*rules_file*]
+#   The file that Audit rules should be added to.
+#
+# [*log_file*]
+#   This keyword specifies the full path name to the log file where audit
+#   records will be stored. It must be a regular file.
+#
+# [*log_format*]
+#   The log format describes how the information should be stored on disk.
+#   There are 2 options: RAW and NOLOG. If set to RAW , the audit records
+#   will be stored in a format exactly as the kernel sends it. If this
+#   option is set to NOLOG then all audit information is discarded instead
+#   of writing to disk. This mode does not affect data sent to the audit
+#   event dispatcher.
+#
+# [*log_group*]
+#   This keyword specifies the group that is applied to the log file's
+#   permissions. The default is root. The group name can be either numeric
+#   or spelled out.
+#
+# [*priority_boost*]
+#   This is a non-negative number that tells the audit damon how much of
+#   a priority boost it should take. The default is 3. No change is 0.
+#
+# [*flush*]
+#   Valid values are none, incremental, data, and sync. If set to none, no
+#   special effort is made to flush the audit records to disk. If set to
+#   incremental, Then the freq parameter is used to determine how often an
+#   explicit flush to disk is issued. The data parameter tells the audit
+#   daemon to keep the data portion of the disk file sync'd at all times.
+#   The sync option tells the audit daemon to keep both the data and meta-data
+#   fully sync'd with every write to disk.
+#
+# [*freq*]
+#   This is a non-negative number that tells the audit damon how many records
+#   to write before issuing an explicit flush to disk command. this value is
+#   only valid when the flush keyword is set to incremental.
+#
+# [*num_logs*]
+#   This keyword specifies the number of log files to keep if rotate is given
+#   as the max_log_file_action. If the number is < 2, logs are not rotated.
+#   This number must be 99 or less. The default is 0 - which means no
+#   rotation. As you increase the number of log files being rotated, you may
+#   need to adjust the kernel backlog setting upwards since it takes more time
+#   to rotate the files.
+#
+# [*disp_qos*]
+#   This option controls whether you want blocking/lossless or
+#   non-blocking/lossy communication between the audit daemon and the
+#   dispatcher. There is a 128k buffer between the audit daemon and
+#   dispatcher. This is good enogh for most uses. If lossy is chosen, incoming
+#   events going to the dispatcher are discarded when this queue is full.
+#   (Events are still written to disk if log_format is not nolog.) Otherwise
+#   the auditd daemon will wait for the queue to have an empty spot before
+#   logging to disk. The risk is that while the daemon is waiting for network
+#   IO, an event is not being recorded to disk. Valid values are: lossy and
+#   lossless.
+#
+# [*dispatcher*]
+#   The dispatcher is a program that is started by the audit daemon when it
+#   starts up. It will pass a copy of all audit events to that application's
+#   stdin. Make sure you trust the application that you add to this line since
+#   it runs with root privileges.
+#
+# [*name_format*]
+#   This option controls how computer node names are inserted into the audit
+#   event stream. It has the following choices: none, hostname, fqd, numeric,
+#   and user. None means that no computer name is inserted into the audit
+#   event. hostname is the name returned by the gethostname syscall. The fqd
+#   means that it takes the hostname and resolves it with dns for a fully
+#   qualified domain name of that machine. Numeric is similar to fqd except
+#   it resolves the IP address of the machine. User is an admin defined string
+#   from the name option.
+#
+# [*admin*]
+#   This is the admin defined string that identifies the machine if user is
+#   given as the name_format option.
+#
+# [*max_log_file*]
+#   This keyword specifies the maximum file size in megabytes. When this limit
+#   is reached, it will trigger a configurable action. The value given must
+#   be numeric.
+#
+# [*max_log_file_action*]
+#   This parameter tells the system what action to take when the system has
+#   detected that the max file size limit has been reached. Valid values are
+#   ignore, syslog, suspend, rotate and keep_logs. If set to ignore, the audit
+#   daemon does nothing. syslog means that it will issue a warning to syslog.
+#   suspend will cause the audit daemon to stop writing records to the disk.
+#   The daemon will still be alive. The rotate option will cause the audit
+#   daemon to rotate the logs. It should be noted that logs with higher
+#   numbers are older than logs with lower numbers. This is the same convention
+#   used by the logrotate utility. The keep_logs option is similar to rotate
+#   except it does not use the num_logs setting. This prevents audit logs from
+#   being overwritten.
+#
+# [*space_left*]
+#   This is a numeric value in megabytes that tells the audit daemon when to
+#   perform a configurable action because the system is starting to run low
+#   on disk space.
+#
+# [*space_left_action*]
+#   This parameter tells the system what action to take when the system has
+#   detected that it is starting to get low on disk space. Valid values are
+#   ignore, syslog, email, suspend, single, and halt. If set to ignore, the
+#   audit daemon does nothing. syslog means that it will issue a warning to
+#   syslog. Email means that it will send a warning to the email account
+#   specified in action_mail_acct as well as sending the message to syslog.
+#   suspend will cause the audit daemon to stop writing records to the disk.
+#   The daemon will still be alive. The single option will cause the audit
+#   daemon to put the computer system in single user mode. halt option will
+#   cause the audit daemon to shutdown the computer system.
+#
+# [*action_mail_acct*]
+#   This option should contain a valid email address or alias. The default
+#   address is root. If the email address is not local to the machine, you
+#   must make sure you have email properly configured on your machine and
+#   network. Also, this option requires that /usr/lib/sendmail exists on the
+#   machine.
+#
+# [*admin_space_left*]
+#   This is a numeric value in megabytes that tells the audit daemon when to
+#   perform a configurable action because the system is running low on disk
+#   space. This should be considered the last chance to do something before
+#   running out of disk space. The numeric value for this parameter should be
+#   lower than the number for space_left.
+#
+# [*admin_space_left_action*]
+#   This parameter tells the system what action to take when the system has
+#   detected that it is low on disk space. Valid values are ignore, syslog,
+#   email, suspend, single, and halt. If set to ignore, the audit daemon does
+#   nothing. Syslog means that it will issue a warning to syslog. Email means
+#   that it will send a warning to the email account specified in
+#   action_mail_acct as well as sending the message to syslog. Suspend will
+#   cause the audit daemon to stop writing records to the disk. The daemon will
+#   still be alive. The single option will cause the audit daemon to put the
+#   computer system in single user mode. halt option will cause the audit
+#   daemon to shutdown the computer system.
+#
+# [*disk_full_action*]
+#   This parameter tells the system what action to take when the system has
+#   detected that the partition to which log files are written has become
+#   full. Valid values are ignore, syslog, suspend, single, and halt. If set
+#   to ignore, the audit daemon does nothing. Syslog means that it will issue
+#   a warning to syslog. Suspend will cause the audit daemon to stop writing
+#   records to the disk. The daemon will still be alive. The single option
+#   will cause the audit daemon to put the computer system in single user
+#   mode. halt option will cause the audit daemon to shutdown the computer
+#   system.
+#
+# [*disk_error_action*]
+#   This parameter tells the system what action to take whenever there is an
+#   error detected when writing audit events to disk or rotating logs. Valid
+#   values are ignore, syslog, suspend, single, and halt. If set to ignore,
+#   the audit daemon does nothing. Syslog means that it will issue a warning
+#   to syslog. Suspend will cause the audit daemon to stop writing records to
+#   the disk. The daemon will still be alive. The single option will cause the
+#   audit daemon to put the computer system in single user mode. halt option
+#   will cause the audit daemon to shutdown the computer system.
+#
+# [*tcp_listen_port*]
+#   This is a numeric value in the range 1..65535 which, if specified, causes
+#   auditd to listen on the corresponding TCP port for audit records from
+#   remote systems. The audit daemon may be linked with tcp_wrappers. You may
+#   want to controll access with an entry in the hosts.allow and deny files.
+#
+# [*tcp_listen_queue*]
+#   This is a numeric value which indicates how many pending (requested but
+#   unaccepted) connections are allowed. The default is 5. Setting this too
+#   small may cause connections to be rejected if too many hosts start up at
+#   exactly the same time, such as after a power failure.
+#
+# [*tcp_max_per_addr*]
+#   This is a numeric value which indicates how many concurrent connections
+#   from one IP address is allowed. The default is 1 and the maximum is 16.
+#   Setting this too large may allow for a Denial of Service attack on the
+#   logging server. The default should be adequate in most cases unless a
+#   custom written recovery script runs to forward unsent events. In this
+#   case you would increase the number only large enough to let it in too.
+#
+# [*tcp_client_ports*]
+#   This parameter may be a single numeric value or two values separated by a
+#   dash (no spaces allowed). It indicates which client ports are allowed for
+#   incoming connections. If not specified, any port is allowed. Allowed
+#   values are 1..65535. For example, to require the client use a privileged
+#   port, specify 1-1023 for this parameter. You will also need to set the
+#   local_port option in the audisp-remote.conf file. Making sure that clients
+#   send from a privileged port is a security feature to prevent log injection
+#   attacks by untrusted users.
+#
+# [*tcp_client_max_idle*]
+#   This parameter indicates the number of seconds that a client may be idle
+#   (i.e. no data from them at all) before auditd complains. This is used to
+#   close inactive connections if the client machine has a problem where it
+#   cannot shutdown the connection cleanly. Note that this is a global setting,
+#   and must be higher than any individual client heartbeat_timeout setting,
+#   preferably by a factor of two. The default is zero, which disables this
+#   check.
+#
+# [*enable_krb5*]
+#   If set to "yes", Kerberos 5 will be used for authentication and encryption.
+#
+# [*krb5_principal*]
+#   This is the principal for this server. The default is "auditd". Given this
+#   default, the server will look for a key named like
+#   auditd/hostname@EXAMPLE.COM stored in /etc/audit/audit.key to authenticate
+#   itself, where hostname is the canonical name for the server's host, as
+#   returned by a DNS lookup of its IP address.
+#
+# [*krb5_key_file*]
+#   Location of the key for this client's principal. Note that the key file
+#   must be owned by root and mode 0400.
 #
 # === Examples
 #
 #  class { 'auditd':
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
+#    log_file => '/var/log/audit.log',
 #  }
 #
 # === Authors

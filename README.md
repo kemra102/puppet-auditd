@@ -59,9 +59,7 @@ Config file settings can be changed as required:
 
 ```puppet
 class { 'auditd':
-  log_file         => '/var/log/audit.log',
-  control_rules    => [ '-D', '-b 1024' ],
-  fs_rules         => [ '-w /etc/passwd -p wa -k identity' ],
+  log_file => '/var/log/audit.log',
 }
 ```
 
@@ -190,7 +188,7 @@ Default: `4`
 
 #### `flush`
 
-Valid values are none, incremental, data, and sync. If set to none, no special effort is made to flush the audit records to disk. If set to incremental, Then the freq parameter is used to determine how often an explicit flush to disk is issued. The data parameter tells the audit damon to keep the data portion of the disk file sync'd at all times. The sync option tells the audit daemon to keep both the data and meta-data fully sync'd with every write to disk.
+Valid values are none, incremental, data, and sync. If set to none, no special effort is made to flush the audit records to disk. If set to incremental, Then the freq parameter is used to determine how often an explicit flush to disk is issued. The data parameter tells the audit daemon to keep the data portion of the disk file sync'd at all times. The sync option tells the audit daemon to keep both the data and meta-data fully sync'd with every write to disk.
 
 Default: `incremental`
 
@@ -304,7 +302,7 @@ Default: `1`
 
 #### `tcp_client_ports`
 
-This parameter may be a single numeric value or two values separated by a dash (no spaces allowed). It indicates which client ports are allowed for incoming connections. If not specified, any port is allowed. Allowed values are 1..65535. For example, to require the client use a priviledged port, specify 1-1023 for this parameter. You will also need to set the local_port option in the audisp-remote.conf file. Making sure that clients send from a privileged port is a security feature to prevent log injection attacks by untrusted users.
+This parameter may be a single numeric value or two values separated by a dash (no spaces allowed). It indicates which client ports are allowed for incoming connections. If not specified, any port is allowed. Allowed values are 1..65535. For example, to require the client use a privileged port, specify 1-1023 for this parameter. You will also need to set the local_port option in the audisp-remote.conf file. Making sure that clients send from a privileged port is a security feature to prevent log injection attacks by untrusted users.
 
 Default: `undef`
 
