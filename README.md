@@ -62,11 +62,6 @@ class { 'auditd':
   log_file         => '/var/log/audit.log',
   control_rules    => [ '-D', '-b 1024' ],
   fs_rules         => [ '-w /etc/passwd -p wa -k identity' ],
-  systemcall_rules => [
-    '-a always,exit -S adjtimex -S settimeofday -S stime -k time-change',
-    '-a always,exit -S clock_settime -k time-change',
-    '-a always,exit -S sethostname -S setdomainname -k system-locale',
-  ],
 }
 ```
 
@@ -79,40 +74,46 @@ You can also do this in Hiera:
 classes:
   - auditd
 auditd::log_file: '/var/log/audit.log'
-auditd::control_rules:
-  - '-D'
-  - '-b 1024'
-auditd::fs_rules:
-  - '-w /etc/passwd -p wa -k identity'
-auditd::systemcall_rules:
-  - '-a always,exit -S adjtimex -S settimeofday -S stime -k time-change'
-  - '-a always,exit -S clock_settime -k time-change'
-  - '-a always,exit -S sethostname -S setdomainname -k system-locale'
 ```
 
-### Using the module via a defined type in other modules
+### Rules
 
-If you have the use case where you would like to add auditing rules from outside modules, you may use the defined type `auditd::rule`.
+Audit rules (there is no distinction between Control, File System & System Call rules) are created using a defined type based on concat and as such can be ordered as required using this format:
 
 ```puppet
-include `your auditd module or class`
-
-auditd::rule {'RuleID':
- content => 'rule to add to audit.rules',
- order   => 'rule number',
+auditd::rule { 'Rule Name':
+  content => 'Rule',
+  order   => 'Order rule should appear in rules file',
 }
 ```
 
-Example:
+For example:
 
 ```puppet
-include `custom_auditd`
+include '::auditd'
 
-auditd::rule {'/var/log/sssd/sssd.log':
-  content => '-w /var/log/sssd/sssd.log -p wa -k identity',
+auditd::rule { 'delete other rules':
+ content => '-D',
+  order   => '00',
+}
+auditd::rule { 'set buffer size':
+  content => '-b 1024',
   order   => '01',
 }
+auditd::rule { 'watch for updates to users':
+  content => '-w /etc/passwd -p wa -k identity',
+  order   => '02',
+}
+auditd::rule { 'audit for time changes':
+  content => '-a always,exit -S clock_settime -k time-change',
+  order   => '03',
+}
+auditd::rule { '-a always,exit -S sethostname -S setdomainname -k system-locale':
+  order   => '04',
+}
 ```
+
+As you can see from the last rule if you omit the content the name of the resource is taken as the content instead.
 
 ## Reference
 
@@ -144,6 +145,24 @@ Defaults:
 Whether the **auditd** service should be managed by Puppet.
 
 Default: `true`
+
+#### `manage_audit_files`
+
+If **true** then **/etc/audit/rules.d/** will be managed by this module. This means any rules not created using this module's defined type will be removed.
+
+Defaults:
+
+* EL7: `true`
+* Others: `false`
+
+#### `rules_file`
+
+The file that Audit rules should be added to.
+
+Defaults:
+
+* EL7: `/etc/audit/rules.d/puppet.rules`
+* Others: `/etc/audit/audit.rules`
 
 #### `log_file`
 
@@ -312,36 +331,6 @@ Default: `auditd`
 Location of the key for this client's principal. Note that the key file must be owned by root and mode 0400.
 
 Default: `undef`
-
-#### `control_rules`
-
-An array of auditd control rules.
-
-Control commands generally involve configuring the audit system rather than telling it what to watch for. These commands typically include deleting all rules, setting the size of the kernel's backlog queue, setting the failure mode, setting the event rate limit, or to tell auditctl to ignore syntax errors in the rules and continue loading. Generally, these rules are at the top of the rules file.
-
-Default: `[]`
-
-#### `fs_rules`
-
-An array of auditd filesystem rules.
-
-File System rules are sometimes called watches. These rules are used to audit access to particular files or directories that you may be interested in. If the path given in the rule is a directory, then the rule used is recursive to the bottom of the directory tree excluding any directories that may be mount points.
-
-Default: `[]`
-
-#### `systemcall_rules`
-
-An array of auditd system call rules.
-
-The system call rules are loaded into a matching engine that intercepts each syscall that all programs on the system makes. Therefore it is very important to only use syscall rules when you have to since these affect performance. The more rules, the bigger the performance hit. You can help the performance, though, by combining syscalls into one rule whenever possible.
-
-The Linux kernel has 5 rule matching lists or filters as they are sometimes called. They are: task, entry, exit, user, and exclude. The task list is checked only during the fork or clone syscalls. It is rarely used in practice.
-
-The entry list is run through at each syscall entry. The exit list is checked on syscall exit. The main difference between these two is that some things are not available at syscall entry and cannot be checked, like the exit value. Rules on the exit filter are much more common and all fields are available for use at syscall exit. At some point in the near future the entry filter will be deprecated, so it would be best to only use the exit filter.
-
-The user filter is used to filter some events that originate in user space. Fields that are valid for use are: uid, auid, gid, and pid. The exclude filter is used to exclude certain events from being emitted. The msgtype field is used to tell the kernel which message types you do not want to record.
-
-Default: `[]`
 
 ## Limitations
 
