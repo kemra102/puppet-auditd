@@ -344,9 +344,9 @@ class auditd (
   validate_string($service_stop)
 
   # Install package
-  package { 'audit':
+  package { $package_name:
     ensure => 'present',
-    name   => $package_name,
+    before => [ File['/etc/audit/auditd.conf'], Concat['audit-file'] ],
   }
 
   # Configure required config files
@@ -356,8 +356,6 @@ class auditd (
     group   => 'root',
     mode    => '0640',
     content => template('auditd/auditd.conf.erb'),
-    require => Package['audit'],
-    notify  => Service['auditd'],
   }
 
   if $manage_audit_files {
@@ -372,16 +370,14 @@ class auditd (
     }
   }
 
-  concat { 'audit-file':
+  concat { $rules_file:
     ensure         => 'present',
-    path           => $rules_file,
     owner          => 'root',
     group          => 'root',
     mode           => '0640',
     ensure_newline => true,
     warn           => true,
-    require        => Package['audit'],
-    notify         => Service['auditd'],
+    alias          => 'audit-file',
   }
 
   # Manage the service
@@ -392,6 +388,7 @@ class auditd (
       hasstatus => true,
       restart   => $service_restart,
       stop      => $service_stop,
+      subscribe => [ File['/etc/audit/auditd.conf'], Concat['audit-file'] ],
     }
   }
 
