@@ -8,7 +8,6 @@ describe 'auditd', :type => :class do
     it { 
       should contain_class('auditd')
       should contain_package('audit').with({
-        'name'   => 'audit',
         'ensure' => 'present',
       })
       should contain_file('/etc/audit/auditd.conf').with({
@@ -17,14 +16,14 @@ describe 'auditd', :type => :class do
         'group'  => 'root',
         'mode'   => '0640',
       })
-      should contain_concat('audit-file').with({
+      should contain_concat('/etc/audit/rules.d/puppet.rules').with({
         'ensure'         => 'present',
-        'path'           => '/etc/audit/rules.d/puppet.rules',
         'owner'          => 'root',
         'group'          => 'root',
         'mode'           => '0640',
         'ensure_newline' => 'true',
         'warn'           => 'true',
+        'alias'          => 'audit-file',
       })
       should contain_service('auditd').with({
         'ensure'    => 'running',
@@ -65,9 +64,7 @@ describe 'auditd', :type => :class do
       :lsbmajdistrelease => '8',
     }}
     it {
-      should contain_package('audit').with({
-        'name' => 'auditd',
-      })
+      should contain_package('auditd')
       should contain_service('auditd').with({
         'restart' => '/bin/systemctl restart auditd',
         'stop'    => '/bin/systemctl stop auditd',
@@ -81,9 +78,7 @@ describe 'auditd', :type => :class do
       :lsbmajdistrelease => '14.04',
     }}
     it {
-      should contain_package('audit').with({
-        'name' => 'auditd',
-      })
+      should contain_package('auditd')
       should contain_service('auditd').with({
         'restart' => '/etc/init.d/auditd restart',
         'stop'    => '/etc/init.d/auditd stop',
