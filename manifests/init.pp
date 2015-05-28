@@ -333,7 +333,7 @@ class auditd (
     "${enable_krb5} is not supported for enable_krb5. Allowed values are 'no' and 'yes'.")
   validate_string($krb5_principal)
   if $tcp_client_ports != undef {
-    validate_abolute_path($krb5_key_file)
+    validate_absolute_path($krb5_key_file)
   }
 
   validate_absolute_path($rules_file)
