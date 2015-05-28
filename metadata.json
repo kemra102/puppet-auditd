@@ -1,6 +1,6 @@
 {
   "name": "kemra102-auditd",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "kemra102",
   "summary": "Manage the audit daemon and it's rules.",
   "license": "BSD-2-Clause",
@@ -11,19 +11,19 @@
   "operatingsystem_support": [
     {
     "operatingsystem":"RedHat",
-    "operatingsystemrelease":[ "5", "6", "7" ]
+    "operatingsystemrelease":[ "5", "6" ]
     },
     {
     "operatingsystem": "CentOS",
-    "operatingsystemrelease": [ "5", "6", "7" ]
+    "operatingsystemrelease": [ "5", "6" ]
     },
     {
     "operatingsystem": "Scientific",
-    "operatingsystemrelease": [ "5", "6", "7" ]
+    "operatingsystemrelease": [ "5", "6" ]
     },
     {
     "operatingsystem": "OracleLinux",
-    "operatingsystemrelease": [ "5", "6", "7" ]
+    "operatingsystemrelease": [ "5", "6" ]
     },
     {
     "operatingsystem": "Amazon"

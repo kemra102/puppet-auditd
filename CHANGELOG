@@ -5,3 +5,6 @@ v0.1.1:
 v1.0.0:
   - Moved to using defined type exclusively for audit rules.
   - Fix rules path for EL7 systems (uses rules.d instead of audit.rules directly).
+v1.0.1:
+  - Fixed Issue #2 in GitHub bug tracker (dependency issues causing concated file to be blank).
+  - Not supporting EL7 releases until upstream bug in concat is fixed (https://tickets.puppetlabs.com/browse/MODULES-2074).
