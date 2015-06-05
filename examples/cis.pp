@@ -18,7 +18,7 @@ auditd::rule { 'check for 64bit time adjustment syscalls':
   order   => '02',
 }
 auditd::rule { 'check for 32bit time adjustment syscalls':
-  content => '-a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change,
+  content => '-a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change',
   order   => '03',
 }
 auditd::rule { 'check for 64bit clock adjustment syscalls':
