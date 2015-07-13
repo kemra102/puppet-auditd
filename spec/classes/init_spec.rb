@@ -4,6 +4,7 @@ describe 'auditd', :type => :class do
     let (:facts) {{
       :osfamily               => 'RedHat',
       :operatingsystemrelease => '7',
+      :concat_basedir         => '/var/lib/puppet/concat',
     }}
     it { 
       should contain_class('auditd')
@@ -38,6 +39,7 @@ describe 'auditd', :type => :class do
     let (:facts) {{
       :osfamily               => 'RedHat',
       :operatingsystemrelease => '6',
+      :concat_basedir         => '/var/lib/puppet/concat',
     }}
     it {
       should contain_service('auditd').with({
@@ -49,7 +51,8 @@ describe 'auditd', :type => :class do
   context 'default parameters on Amazon Linux' do
     let (:facts) {{
       :osfamily        => 'RedHat',
-      :operatingsystem => 'Amazon'
+      :operatingsystem => 'Amazon',
+      :concat_basedir  => '/var/lib/puppet/concat',
     }}
     it {
       should contain_service('auditd').with({
@@ -62,6 +65,7 @@ describe 'auditd', :type => :class do
     let (:facts) {{
       :osfamily          => 'Debian',
       :lsbmajdistrelease => '8',
+      :concat_basedir    => '/var/lib/puppet/concat',
     }}
     it {
       should contain_package('auditd')
@@ -76,6 +80,7 @@ describe 'auditd', :type => :class do
       :osfamily          => 'Debian',
       :operatingsystem   => 'Ubuntu',
       :lsbmajdistrelease => '14.04',
+      :concat_basedir    => '/var/lib/puppet/concat',
     }}
     it {
       should contain_package('auditd')
@@ -87,7 +92,8 @@ describe 'auditd', :type => :class do
   end
   context 'default parameters on Archlinux' do
     let (:facts) {{
-      :osfamily => 'Archlinux',
+      :osfamily       => 'Archlinux',
+      :concat_basedir => '/var/lib/puppet/concat',
     }}
     it {
       should contain_package('audit').with({
@@ -101,7 +107,8 @@ describe 'auditd', :type => :class do
   end
   context 'default parameters on Gentoo' do
     let (:facts) {{
-      :osfamily => 'Gentoo',
+      :osfamily       => 'Gentoo',
+      :concat_basedir => '/var/lib/puppet/concat',
     }}
     it {
       should contain_package('audit').with({
