@@ -281,7 +281,7 @@ class auditd (
   # Variables for Audit files
   $rules_file              = $::auditd::params::rules_file,
   $manage_audit_files      = $::auditd::params::manage_audit_files,
-  $buffer_size             = $::auditd::params::buffer_size,,
+  $buffer_size             = $::auditd::params::buffer_size,
 
   $manage_service          = $::auditd::params::manage_service,
   $service_restart         = $::auditd::params::service_restart,
