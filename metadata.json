@@ -14,7 +14,7 @@
     "operatingsystemrelease": [ "5", "6", "7" ]
     },
     {
-    "operatingsystem": "SUSE",
+    "operatingsystem": "SLES",
     "operatingsystemrelease": [ "10", "11", "12" ]
     },
     {
