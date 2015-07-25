@@ -336,6 +336,7 @@ Tested on:
 
 * CentOS 5/6/7
 * Fedora 20/21
+* SUSE 10/11/12
 * Amazon Linux
 * Debian 6/7/8
 * Ubuntu 12.04/14.04

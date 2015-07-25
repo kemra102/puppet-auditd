@@ -380,16 +380,34 @@ class auditd (
     alias          => 'audit-file',
   }
 
+  concat::fragment{ 'auditd_rules_begin':
+    target  => $rules_file,
+    content => template('auditd/audit.rules.begin.fragment.erb'),
+    order   => '00'
+  }
+
+  concat::fragment{ 'auditd_rules_end':
+    target  => $rules_file,
+    content => template('auditd/audit.rules.end.fragment.erb'),
+    order   => '99'
+  }
+
   # Manage the service
   if $manage_service {
-    service { 'auditd':
-      ensure    => 'running',
-      enable    => true,
-      hasstatus => true,
-      restart   => $service_restart,
-      stop      => $service_stop,
-      subscribe => [ File['/etc/audit/auditd.conf'], Concat['audit-file'] ],
-    }
+    $service_ensure = 'running'
+    $service_enable = true
+  }
+  else {
+    $service_ensure = 'stopped'
+    $service_enable = false
+  }
+  service { 'auditd':
+    ensure    => $service_ensure,
+    enable    => $service_enable,
+    hasstatus => true,
+    restart   => $service_restart,
+    stop      => $service_stop,
+    subscribe => [ File['/etc/audit/auditd.conf'], Concat['audit-file'] ],
   }
 
 }
