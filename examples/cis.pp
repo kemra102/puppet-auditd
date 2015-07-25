@@ -5,75 +5,67 @@ class { '::auditd':
   max_log_file_action     => 'keep_logs',
 }
 
-auditd::rule { 'delete other rules':
-  content => '-D',
-  order   => '00',
-}
-auditd::rule { 'set a larger buffer size':
-  content => '-b 1024',
-  order   => '01',
-}
 auditd::rule { 'check for 64bit time adjustment syscalls':
   content => '-a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change',
-  order   => '02',
+  order   => '01',
 }
 auditd::rule { 'check for 32bit time adjustment syscalls':
   content => '-a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change',
-  order   => '03',
+  order   => '02',
 }
 auditd::rule { 'check for 64bit clock adjustment syscalls':
   content => '-a always,exit -F arch=b64 -S clock_settime -k time-change',
-  order   => '04',
+  order   => '03',
 }
 auditd::rule { 'check for 32bit clock adjustment syscalls':
   content => '-a always,exit -F arch=b32 -S clock_settime -k time-change',
-  order   => '05',
+  order   => '04',
 }
 auditd::rule { 'watch for changes to the local time file':
   content => '-w /etc/localtime -p wa -k time-change',
-  order   => '06',
+  order   => '05',
 }
 auditd::rule { 'watch for changes to group file':
   content => '-w /etc/group -p wa -k identity',
-  order   => '07',
+  order   => '06',
 }
 auditd::rule { 'watch for changes to passwd file':
   content => '-w /etc/passwd -p wa -k identity',
-  order   => '08',
+  order   => '07',
 }
 auditd::rule { 'watch for changes to gshadow file':
   content => '-w /etc/gshadow -p wa -k identity',
-  order   => '09',
+  order   => '08',
 }
 auditd::rule { 'watch for changes to shadow file':
   content => '-w /etc/shadow -p wa -k identity',
-  order   => '10',
+  order   => '09',
 }
 auditd::rule { 'watch for changes to opasswd file':
   content => '-w /etc/security/opasswd -p wa -k identity',
-  order   => '11',
+  order   => '10',
 }
 auditd::rule { 'check for 64bit hostname change syscalls':
   content => '-a always,exit -F arch=b64 -S sethostname -S setdomainname -k system-locale',
-  order   => '12',
+  order   => '11',
 }
 auditd::rule { 'check for 32bit hostname change syscalls':
   content => '-a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale',
-  order   => '13',
+  order   => '12',
 }
 auditd::rule { 'watch for changes to issue notice file':
   content => '-w /etc/issue -p wa -k system-locale',
-  order   => '14',
+  order   => '13',
 }
 auditd::rule { 'watch for changes to issue.net notice file':
   content => '-w /etc/issue.net -p wa -k system-locale',
-  order   => '15',
+  order   => '14',
 }
 auditd::rule { 'watch for changes to hosts file':
   content => '-w /etc/hosts -p wa -k system-locale',
-  order   => '16',
+  order   => '15',
 }
 auditd::rule { 'watch for changes to network config file':
   content => '-w /etc/sysconfig/network -p wa -k system-locale',
-  order   => '17',
+  order   => '16',
 }
