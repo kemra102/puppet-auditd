@@ -81,7 +81,7 @@ Audit rules (there is no distinction between Control, File System & System Call 
 ```puppet
 auditd::rule { 'Rule Name':
   content => 'Rule',
-  order   => 'Order rule should appear in rules file',
+  order   => 'Order rule should appear in rules file starting with 01',
 }
 ```
 
@@ -90,28 +90,22 @@ For example:
 ```puppet
 include '::auditd'
 
-auditd::rule { 'delete other rules':
- content => '-D',
-  order   => '00',
-}
-auditd::rule { 'set buffer size':
-  content => '-b 1024',
-  order   => '01',
-}
 auditd::rule { 'watch for updates to users':
   content => '-w /etc/passwd -p wa -k identity',
-  order   => '02',
+  order   => '01',
 }
 auditd::rule { 'audit for time changes':
   content => '-a always,exit -S clock_settime -k time-change',
-  order   => '03',
+  order   => '02',
 }
 auditd::rule { '-a always,exit -S sethostname -S setdomainname -k system-locale':
-  order   => '04',
+  order   => '03',
 }
 ```
 
 As you can see from the last rule if you omit the content the name of the resource is taken as the content instead.
+
+You should also note that all rules files are populated with `-D` and a rule to set the buffer size so these should not be set via rules.
 
 ## Reference
 
@@ -146,13 +140,13 @@ Default: `true`
 
 #### `service_ensure`
 
-Ensure state of the **auditd** service
+Ensure state of the **auditd** service.
 
 Default: `running`
 
 #### `service_enable`
 
-Whether the **auditd** service should be enabled/disabled
+Whether the **auditd** service should be enabled/disabled.
 
 Default: `true`
 
@@ -344,7 +338,7 @@ Default: `undef`
 
 #### `buffer_size`
 
-Value for Buffer size in `rules_file` header
+Value for Buffer size in `rules_file` header.
 
 Default: `8192`
 
