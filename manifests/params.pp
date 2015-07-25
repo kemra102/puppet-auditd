@@ -2,6 +2,8 @@ class auditd::params {
 
   # Give the option of managing the service.
   $manage_service = true
+  $service_ensure = 'running'
+  $service_enable = true
 
   # OS specific variables.
   case $::osfamily {
@@ -91,4 +93,6 @@ class auditd::params {
   $krb5_principal          = 'auditd'
   $krb5_key_file           = undef
 
+  #Rules Header variables
+  $buffer_size = '8192'
 }

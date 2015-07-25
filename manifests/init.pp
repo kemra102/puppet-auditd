@@ -281,10 +281,13 @@ class auditd (
   # Variables for Audit files
   $rules_file              = $::auditd::params::rules_file,
   $manage_audit_files      = $::auditd::params::manage_audit_files,
+  $buffer_size             = $::auditd::params::buffer_size,,
 
   $manage_service          = $::auditd::params::manage_service,
   $service_restart         = $::auditd::params::service_restart,
   $service_stop            = $::auditd::params::service_stop,
+  $service_ensure          = $::auditd::params::service_ensure,
+  $service_enable          = $::auditd::params::service_enable,
 
 ) inherits auditd::params {
 
@@ -338,10 +341,13 @@ class auditd (
 
   validate_absolute_path($rules_file)
   validate_bool($manage_audit_files)
+  validate_integer($buffer_size)
 
   validate_bool($manage_service)
   validate_string($service_restart)
   validate_string($service_stop)
+  validate_string($service_ensure)
+  validate_bool($service_enable)
 
   # Install package
   package { $package_name:
@@ -386,28 +392,16 @@ class auditd (
     order   => '00'
   }
 
-  concat::fragment{ 'auditd_rules_end':
-    target  => $rules_file,
-    content => template('auditd/audit.rules.end.fragment.erb'),
-    order   => '99'
-  }
-
   # Manage the service
   if $manage_service {
-    $service_ensure = 'running'
-    $service_enable = true
-  }
-  else {
-    $service_ensure = 'stopped'
-    $service_enable = false
-  }
-  service { 'auditd':
-    ensure    => $service_ensure,
-    enable    => $service_enable,
-    hasstatus => true,
-    restart   => $service_restart,
-    stop      => $service_stop,
-    subscribe => [ File['/etc/audit/auditd.conf'], Concat['audit-file'] ],
+    service { 'auditd':
+      ensure    => $service_ensure,
+      enable    => $service_enable,
+      hasstatus => true,
+      restart   => $service_restart,
+      stop      => $service_stop,
+      subscribe => [ File['/etc/audit/auditd.conf'], Concat['audit-file'] ],
+    }
   }
 
 }
