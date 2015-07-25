@@ -8,3 +8,11 @@ v1.0.0:
 v1.0.1:
   - Fixed Issue #2 in GitHub bug tracker (dependency issues causing concated file to be blank).
   - Not supporting EL7 releases until upstream bug in concat is fixed (https://tickets.puppetlabs.com/browse/MODULES-2074).
+v1.1.0:
+  - Changed concat requirement to allow EL7 systems to work.
+  - Forced stdlib dependency version due to validate functions required.
+  - SUSE support added.
+  - Allow more fine grained control of service.
+  - Moved delete and buffer_size rules into every file via concat fragment.
+  - Added ability to add rules from main class rather than needing to call defined type.
+  - Added examples.
