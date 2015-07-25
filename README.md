@@ -148,7 +148,7 @@ Default: `true`
 
 Ensure state of the **auditd** service
 
-Default: 'running'
+Default: `running`
 
 #### `service_enable`
 
@@ -346,7 +346,7 @@ Default: `undef`
 
 Value for Buffer size in `rules_file` header
 
-Default: 8192`
+Default: `8192`
 
 ## Limitations
 
