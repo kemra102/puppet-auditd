@@ -2,6 +2,8 @@ class auditd::params {
 
   # Give the option of managing the service.
   $manage_service = true
+  $service_ensure = 'running'
+  $service_enable = true
 
   # OS specific variables.
   case $::osfamily {
@@ -20,6 +22,13 @@ class auditd::params {
           $service_stop    = '/etc/init.d/auditd stop'
         }
       }
+    }
+    'Suse': {
+      $package_name       = 'audit'
+      $manage_audit_files = true
+      $rules_file         = '/etc/audit/audit.rules'
+      $service_restart    = '/etc/init.d/auditd restart'
+      $service_stop       = '/etc/init.d/auditd stop'
     }
     'RedHat': {
       $package_name       = 'audit'
@@ -84,4 +93,6 @@ class auditd::params {
   $krb5_principal          = 'auditd'
   $krb5_key_file           = undef
 
+  #Rules Header variables
+  $buffer_size = '8192'
 }

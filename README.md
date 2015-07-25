@@ -144,6 +144,18 @@ Whether the **auditd** service should be managed by Puppet.
 
 Default: `true`
 
+#### `service_ensure`
+
+Ensure state of the **auditd** service
+
+Default: `running`
+
+#### `service_enable`
+
+Whether the **auditd** service should be enabled/disabled
+
+Default: `true`
+
 #### `manage_audit_files`
 
 If **true** then **/etc/audit/rules.d/** will be managed by this module. This means any rules not created using this module's defined type will be removed.
@@ -330,12 +342,19 @@ Location of the key for this client's principal. Note that the key file must be 
 
 Default: `undef`
 
+#### `buffer_size`
+
+Value for Buffer size in `rules_file` header
+
+Default: `8192`
+
 ## Limitations
 
 Tested on:
 
 * CentOS 5/6/7
 * Fedora 20/21
+* SUSE 10/11/12
 * Amazon Linux
 * Debian 6/7/8
 * Ubuntu 12.04/14.04
