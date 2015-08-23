@@ -14,8 +14,11 @@ tmtags
 *.swp
 tags
 
-# puppet module build
+## puppet module build
 pkg
 
-# testing
+## testing
 spec/fixtures
+
+## vagrant
+.vagrant/
