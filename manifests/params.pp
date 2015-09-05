@@ -95,4 +95,12 @@ class auditd::params {
 
   #Rules Header variables
   $buffer_size = '8192'
+
+  # Audisp main config variables
+  $audisp_q_depth          = 80
+  $audisp_overflow_action  = 'syslog'
+  $audisp_priority_boost   = 4
+  $audisp_max_restarts     = 10
+  $audisp_name_format      = 'none'
+  $audisp_name             = undef
 }

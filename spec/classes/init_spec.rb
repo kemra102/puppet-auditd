@@ -8,8 +8,9 @@ describe 'auditd', :type => :class do
     }}
     it { 
       should contain_class('auditd')
-      should contain_package('audit').with({
+      should contain_package('auditd').with({
         'ensure' => 'present',
+        'name'   => 'audit',
       })
       should contain_file('/etc/audit/auditd.conf').with({
         'ensure' => 'file',
@@ -68,7 +69,7 @@ describe 'auditd', :type => :class do
       :concat_basedir    => '/var/lib/puppet/concat',
     }}
     it {
-      should contain_package('auditd')
+      should contain_package('auditd').with_name('auditd')
       should contain_service('auditd').with({
         'restart' => '/bin/systemctl restart auditd',
         'stop'    => '/bin/systemctl stop auditd',
@@ -83,7 +84,7 @@ describe 'auditd', :type => :class do
       :concat_basedir    => '/var/lib/puppet/concat',
     }}
     it {
-      should contain_package('auditd')
+      should contain_package('auditd').with_name('auditd')
       should contain_service('auditd').with({
         'restart' => '/etc/init.d/auditd restart',
         'stop'    => '/etc/init.d/auditd stop',
@@ -96,9 +97,7 @@ describe 'auditd', :type => :class do
       :concat_basedir => '/var/lib/puppet/concat',
     }}
     it {
-      should contain_package('audit').with({
-        'name' => 'audit',
-      })
+      should contain_package('auditd').with_name('audit')
       should contain_service('auditd').with({
         'restart' => '/usr/bin/kill -s SIGHUP $(cat /var/run/auditd.pid)',
         'stop'    => '/usr/bin/kill -s SIGTERM $(cat /var/run/auditd.pid)',
@@ -111,9 +110,7 @@ describe 'auditd', :type => :class do
       :concat_basedir => '/var/lib/puppet/concat',
     }}
     it {
-      should contain_package('audit').with({
-        'name' => 'audit',
-      })
+      should contain_package('auditd').with_name('audit')
       should contain_service('auditd').with({
         'restart' => '/etc/init.d/auditd restart',
         'stop'    => '/etc/init.d/auditd stop',

@@ -236,6 +236,73 @@
 #   Location of the key for this client's principal. Note that the key file
 #   must be owned by root and mode 0400.
 #
+# [*rules_file*]
+#   Location of the Audit rules file.
+#
+# [*manage_audit_files*]
+#   On systems with 'rules.d' directory whether or not to manage that directory
+#   removing rules not managed by Puppet.
+#
+# [*buffer_size*]
+#   Sets the buffer size used by Auditd.
+#
+# [*audisp_q_depth*]
+#   This is a numeric value that tells how big to make the internal queue of
+#   the audit event dispatcher. A bigger queue lets it handle a flood of
+#   events better, but could hold events that are not processed when the daemon
+#   is terminated. If you get messages in syslog about events getting dropped,
+#   increase this value.
+#
+# [*audisp_overflow_action*]
+#   This option determines how the daemon should react to overflowing its
+#   internal queue. When this happens, it means that more events are being
+#   received than it can get rid of. This error means that it is going to lose
+#   the current event its trying to dispatch. It has the following choices:
+#   ignore, syslog, suspend, single, and halt. If set to ignore, the audisp
+#   daemon does nothing. syslog means that it will issue a warning to syslog.
+#   suspend will cause the audisp daemon to stop processing events. The daemon
+#   will still be alive. The single option will cause the audisp daemon to put
+#   the computer system in single user mode. halt option will cause the audisp
+#   daemon to shutdown the computer system.
+#
+# [*audisp_priority_boost*]
+#   This is a non-negative number that tells the audit event dispatcher how
+#   much of a priority boost it should take. This boost is in addition to the
+#   boost provided from the audit daemon. The default is 4. No change is 0.
+#
+# [*audisp_max_restarts*]
+#   This is a non-negative number that tells the audit event dispatcher how
+#   many times it can try to restart a crashed plugin.
+#
+# [*audisp_max_restarts*]
+#   This option controls how computer node names are inserted into the audit
+#   event stream. It has the following choices: none, hostname, fqd, numeric,
+#   and user. None means that no computer name is inserted into the audit
+#   event. hostname is the name returned by the gethostname syscall. The fqd
+#   means that it takes the hostname and resolves it with dns for a fully
+#   qualified domain name of that machine. Numeric is similar to fqd except it
+#   resolves the IP address of the machine. User is an admin defined string
+#   from the name option.
+#
+# [*audisp_name*]
+#   This is the admin defined string that identifies the machine if user is
+#   given as the name_format option.
+#
+# [*manage_service*]
+#   Whether or not the auditd service should be managed.
+#
+# [*service_restart*]
+#   Command to restart the auditd service.
+#
+# [*service_stop*]
+#   Command to stop the auditd service.
+#
+# [*service_ensure*]
+#   The status the auditd daemon should be in.
+#
+# [*service_enable*]
+#   Whether or not to start the auditd service on boot.
+#
 # [*rules*]
 #   Hash of auditd rules to be applied using the audit::rule defined type.
 #
@@ -292,12 +359,22 @@ class auditd (
   $manage_audit_files      = $::auditd::params::manage_audit_files,
   $buffer_size             = $::auditd::params::buffer_size,
 
+  # Audisp main config variables
+  $audisp_q_depth          = $::auditd::params::audisp_q_depth,
+  $audisp_overflow_action  = $::auditd::params::audisp_overflow_action,
+  $audisp_priority_boost   = $::auditd::params::audisp_priority_boost,
+  $audisp_max_restarts     = $::auditd::params::audisp_max_restarts,
+  $audisp_name_format      = $::auditd::params::audisp_name_format,
+  $audisp_name             = $::auditd::params::audisp_name,
+
+  # Service management variables
   $manage_service          = $::auditd::params::manage_service,
   $service_restart         = $::auditd::params::service_restart,
   $service_stop            = $::auditd::params::service_stop,
   $service_ensure          = $::auditd::params::service_ensure,
   $service_enable          = $::auditd::params::service_enable,
 
+  # Optionally define rules through main class
   $rules                   = {},
 
 ) inherits auditd::params {
@@ -354,20 +431,30 @@ class auditd (
   validate_bool($manage_audit_files)
   validate_integer($buffer_size)
 
+  validate_integer($audisp_q_depth)
+  validate_re($audisp_overflow_action, '^(ignore|syslog|suspend|single|halt)$',
+    "${audisp_overflow_action} is not supported for 'audisp_overflow_action'. Allowed values are 'ignore', 'syslog', 'suspend', 'single' & 'halt'.")
+  validate_integer($audisp_priority_boost)
+  validate_integer($audisp_max_restarts)
+  if $audisp_name {
+    validate_string($audisp_name)
+  }
+
   validate_bool($manage_service)
   validate_string($service_restart)
   validate_string($service_stop)
   validate_string($service_ensure)
   validate_bool($service_enable)
 
-  # Include the audisp config
-  include '::auditd::audisp'
-
   # Install package
   package { 'auditd':
     ensure => 'present',
     name   => $package_name,
-    before => [ File['/etc/audit/auditd.conf'], Concat['audit-file'] ],
+    before => [
+      File['/etc/audit/auditd.conf'],
+      File['/etc/audisp/audispd.conf'],
+      Concat['audit-file'],
+    ],
   }
 
   # Configure required config files
@@ -400,11 +487,18 @@ class auditd (
     warn           => true,
     alias          => 'audit-file',
   }
-
   concat::fragment{ 'auditd_rules_begin':
     target  => $rules_file,
     content => template('auditd/audit.rules.begin.fragment.erb'),
     order   => '00'
+  }
+
+  file { '/etc/audisp/audispd.conf':
+    ensure  => 'file',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0640',
+    content => template('auditd/audispd.conf.erb'),
   }
 
   # If a hash of rules is supplied with class then call auditd::rules defined type to apply them
@@ -420,7 +514,11 @@ class auditd (
       hasstatus => true,
       restart   => $service_restart,
       stop      => $service_stop,
-      subscribe => [ File['/etc/audit/auditd.conf'], Concat['audit-file'] ],
+      subscribe => [
+        File['/etc/audit/auditd.conf'],
+        File['/etc/audisp/audispd.conf'],
+        Concat['audit-file'],
+      ],
     }
   }
 
