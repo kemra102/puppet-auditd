@@ -1,0 +1,11 @@
+#
+# This file is managed by Puppet.
+#
+q_depth = <%= @q_depth %>
+overflow_action = <%= @overflow_action %>
+priority_boost = <%= @priority_boost %>
+max_restarts = <%= @max_restarts %>
+name_format = <%= @name_format %>
+<% if @audisp_name %>
+name = <%= @audisp_name %>
+<% end -%>

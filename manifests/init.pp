@@ -360,9 +360,13 @@ class auditd (
   validate_string($service_ensure)
   validate_bool($service_enable)
 
+  # Include the audisp config
+  include '::auditd::audisp'
+
   # Install package
-  package { $package_name:
+  package { 'auditd':
     ensure => 'present',
+    name   => $package_name,
     before => [ File['/etc/audit/auditd.conf'], Concat['audit-file'] ],
   }
 

@@ -14,3 +14,5 @@ class { '::auditd':
     },
   },
 }
+
+include '::auditd::audisp'
