@@ -14,6 +14,7 @@
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
+    * [Testing](#testing)
 7. [Contributors](#contributors)
 
 ## Overview
@@ -460,9 +461,35 @@ This is the admin defined string that identifies the machine if user is given as
 
 Default: `undef`
 
-## Limitations
 
-Tested on:
+## Development
+
+Contributions are welcome in any form, pull requests, and issues should be filed via GitHub.
+
+### Testing
+
+The following options are used for testing this module:
+
+* Puppet Rspec:
+  * Lint
+  * Puppet Validator
+  * Spec tests
+* Travis CI (runs rspec tests):
+  * Ruby 1.9.3 // Puppet 3.0
+  * Ruby 2.0.0 // Puppet 3.0
+  * Ruby 2.0.0 // Puppet 4.0
+* Vagrant Smoke Tests:
+  * CentOS 7.0 (PE & OS)
+  * CentOS 6.6 (OS)
+  * CentOS 5.11 (OS)
+  * Ubuntu 14.04 (PE & OS)
+  * Ubuntu 12.04 (OS)
+  * Debian 7.8 (PE & OS)
+  * Debian 6.0.10 (OS)
+
+The Vagrant smoke tests use the Puppet Labs Vagrant boxes and so run Puppet Enterprise (PE) 3.8.1 & Puppet Open Source (OS) 4.2.1.
+
+Some form of testing has occured on:
 
 * CentOS 5/6/7
 * Fedora 20/21
@@ -475,14 +502,10 @@ Tested on:
 
 Should also work without modification on:
 
-* RHEL, Scientific Linux & Oracle Linux 5/6/7
-* None LTS Ubuntu releases
+* RHEL, Scientific Linux & Oracle Linux 5/6/7.
+* None LTS Ubuntu releases.
 
-Other distros should be easily supported, they just need some addtitional code and testing.
-
-## Development
-
-Contributions are welcome in any form, pull requests, and issues should be filed via GitHub.
+Other distros should be easily supported, they just need some additional code and testing.
 
 ## Contributors
 
