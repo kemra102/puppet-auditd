@@ -4,6 +4,7 @@ class auditd::params {
   case $::osfamily {
     'Debian': {
       $package_name       = 'auditd'
+      $audisp_package     = 'audispd-plugins'
       $manage_audit_files = false
       $rules_file         = '/etc/audit/audit.rules'
 
@@ -20,6 +21,7 @@ class auditd::params {
     }
     'Suse': {
       $package_name       = 'audit'
+      $audisp_package     = 'audispd-plugins'
       $manage_audit_files = false
       $rules_file         = '/etc/audit/audit.rules'
       $service_restart    = '/etc/init.d/auditd restart'
@@ -27,6 +29,7 @@ class auditd::params {
     }
     'RedHat': {
       $package_name       = 'audit'
+      $audisp_package     = 'audispd-plugins'
       $manage_audit_files = true
 
       if versioncmp($::operatingsystemrelease, '7') >= 0 and $::operatingsystem != 'Amazon' {
@@ -41,6 +44,7 @@ class auditd::params {
     }
     'Archlinux': {
       $package_name       = 'audit'
+      $audisp_package     = 'audit'
       $manage_audit_files = false
       $rules_file         = '/etc/audit/audit.rules'
       $service_restart    = '/usr/bin/kill -s SIGHUP $(cat /var/run/auditd.pid)'
@@ -48,6 +52,7 @@ class auditd::params {
     }
     'Gentoo': {
       $package_name       = 'audit'
+      $audisp_package     = 'audit'
       $manage_audit_files = false
       $rules_file         = '/etc/audit/audit.rules'
       $service_restart    = '/etc/init.d/auditd restart'

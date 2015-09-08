@@ -1,7 +1,7 @@
 class auditd::audisp::audispd_zos_remote {
 
-  if ! defined(Package['audispd-plugins']) {
-    package { 'audispd-plugins':
+  if ! defined(Package[$::auditd::params::audisp_package]) {
+    package { $::auditd::params::audisp_package:
       ensure => 'present',
     }
   }
@@ -9,7 +9,7 @@ class auditd::audisp::audispd_zos_remote {
   auditd::audisp::plugin { 'audispd-zos-remote':
     path    => '/sbin/audispd-zos-remote',
     args    => '/etc/audisp/zos-remote.conf',
-    require => Package['audispd-plugins'],
+    require => Package[$::auditd::params::audisp_package],
   }
 
 }

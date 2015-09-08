@@ -8,8 +8,9 @@
     * [What auditd affects](#what-auditd-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with auditd](#beginning-with-auditd)
-    * [Audit Rules](#rules)
 4. [Usage - Configuration options and additional functionality](#usage)
+    * [Audit Rules](#rules)
+    * [Audisp Plugins](#audisp-plugins)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
@@ -124,6 +125,12 @@ class { '::auditd':
 As you can see from the last rule if you omit the content the name of the resource is taken as the content instead.
 
 You should also note that all rules files are populated with `-D` and a rule to set the buffer size so these should not be set via rules.
+
+### Audisp Plugins
+
+audispd is an audit event multiplexor. It has to be started by the audit daemon in order to get events. It takes audit events and distributes them to child programs that want to analyze events in realtime. When the audit daemon receives a SIGTERM or SIGHUP, it passes that signal to the dispatcher, too. The dispatcher in turn passes those signals to its child processes.
+
+This module supports a number 
 
 ## Reference
 
