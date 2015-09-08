@@ -8,6 +8,7 @@
     * [What auditd affects](#what-auditd-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with auditd](#beginning-with-auditd)
+    * [Audit Rules](#rules)
 4. [Usage - Configuration options and additional functionality](#usage)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
@@ -100,6 +101,23 @@ auditd::rule { 'audit for time changes':
 }
 auditd::rule { '-a always,exit -S sethostname -S setdomainname -k system-locale':
   order   => '03',
+}
+```
+
+Rules can also be set from within the main class via the `rules` hash:
+
+```puppet
+class { '::auditd':
+  rules => {
+    'watch for changes to passwd file' => {
+      content => '-w /etc/passwd -p wa -k identity',
+      order   => '01',
+    },
+    'watch for changes to hosts file'  => {
+      content => '-w /etc/hosts -p wa -k system-locale',
+      order   => '02',
+    },
+  },
 }
 ```
 
@@ -341,6 +359,42 @@ Default: `undef`
 Value for Buffer size in `rules_file` header.
 
 Default: `8192`
+
+#### `audisp_q_depth`
+
+This is a numeric value that tells how big to make the internal queue of the audit event dispatcher. A bigger queue lets it handle a flood of events better, but could hold events that are not processed when the daemon is terminated. If you get messages in syslog about events getting dropped, increase this value.
+
+Default: `80`
+
+#### `audisp_overflow_action`
+
+This option determines how the daemon should react to overflowing its internal queue. When this happens, it means that more events are being received than it can get rid of. This error means that it is going to lose the current event its trying to dispatch. It has the following choices: ignore, syslog, suspend, single, and halt. If set to ignore, the audisp daemon does nothing. syslog means that it will issue a warning to syslog. suspend will cause the audisp daemon to stop processing events. The daemon will still be alive. The single option will cause the audisp daemon to put the computer system in single user mode. halt option will cause the audisp daemon to shutdown the computer system.
+
+Default: `syslog`
+
+#### `audisp_priority_boost`
+
+This is a non-negative number that tells the audit event dispatcher how much of a priority boost it should take. This boost is in addition to the boost provided from the audit daemon. The default is 4. No change is 0.
+
+Default: `4`
+
+#### `audisp_max_restarts`
+
+This is a non-negative number that tells the audit event dispatcher how many times it can try to restart a crashed plugin.
+
+Default: `10`
+
+#### `audisp_name_format`
+
+This option controls how computer node names are inserted into the audit event stream. It has the following choices: none, hostname, fqd, numeric, and user. None means that no computer name is inserted into the audit event. hostname is the name returned by the gethostname syscall. The fqd means that it takes the hostname and resolves it with dns for a fully qualified domain name of that machine. Numeric is similar to fqd except it resolves the IP address of the machine. User is an admin defined string from the name option.
+
+Default: `none`
+
+#### `audisp_name`
+
+This is the admin defined string that identifies the machine if user is given as the audisp_name_format option.
+
+Default: `undef`
 
 ## Limitations
 

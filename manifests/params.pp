@@ -1,10 +1,5 @@
 class auditd::params {
 
-  # Give the option of managing the service.
-  $manage_service = true
-  $service_ensure = 'running'
-  $service_enable = true
-
   # OS specific variables.
   case $::osfamily {
     'Debian': {
@@ -25,7 +20,7 @@ class auditd::params {
     }
     'Suse': {
       $package_name       = 'audit'
-      $manage_audit_files = true
+      $manage_audit_files = false
       $rules_file         = '/etc/audit/audit.rules'
       $service_restart    = '/etc/init.d/auditd restart'
       $service_stop       = '/etc/init.d/auditd stop'
@@ -93,7 +88,7 @@ class auditd::params {
   $krb5_principal          = 'auditd'
   $krb5_key_file           = undef
 
-  #Rules Header variables
+  # Rules Header variables
   $buffer_size = '8192'
 
   # Audisp main config variables
@@ -103,4 +98,9 @@ class auditd::params {
   $audisp_max_restarts     = 10
   $audisp_name_format      = 'none'
   $audisp_name             = undef
+
+  # Give the option of managing the service.
+  $manage_service         = true
+  $service_ensure         = 'running'
+  $service_enable         = true
 }

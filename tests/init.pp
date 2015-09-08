@@ -15,7 +15,3 @@ class { '::auditd':
   },
   audisp_name_format       => 'fqd',
 }
-
-#class { '::auditd::audisp':
-#  name_format => 'fqd',
-#}
