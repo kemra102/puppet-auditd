@@ -34,7 +34,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell do |shell|
     script = "mkdir -p /etc/puppetlabs/code/environments/production/modules/auditd;" +
     "cp -r /vagrant/* /etc/puppetlabs/code/environments/production/modules/auditd/;" +
-    "puppet module --modulepath=/etc/puppetlabs/code/environments/production/modules/ install puppetlabs/concat --version=1.2.2;" +
+    "puppet module --modulepath=/etc/puppetlabs/code/environments/production/modules/ install puppetlabs/concat --version=1.2.4;" +
     'export PATH=$PATH:/opt/puppetlabs/puppet/bin;' +
     'export MODULEPATH=/etc/puppetlabs/code/environments/production/modules/;' +
     "puppet apply --pluginsync --modulepath=$MODULEPATH \"$MODULEPATH\"auditd/tests/init.pp;" +
