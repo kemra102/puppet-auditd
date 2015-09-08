@@ -130,7 +130,70 @@ You should also note that all rules files are populated with `-D` and a rule to 
 
 audispd is an audit event multiplexor. It has to be started by the audit daemon in order to get events. It takes audit events and distributes them to child programs that want to analyze events in realtime. When the audit daemon receives a SIGTERM or SIGHUP, it passes that signal to the dispatcher, too. The dispatcher in turn passes those signals to its child processes.
 
-This module supports a number 
+This module supports a number of Audisp plugins as described below. All of the plugins require the main `::auditd` class but none require it automatically so you should include it yourself.
+
+#### af_unix
+
+This plugin takes events and writes them to a unix domain socket. This plugin can take 2 arguments, the path for the socket and the socket permissions in octal.
+
+To use this plugin:
+
+```puppet
+include '::auditd'
+include '::auditd::audisp::af_unix'
+```
+
+You can change the `args` for this plugin:
+
+```puppet
+include '::auditd'
+class { '::auditd::audisp::af_unix':
+  args => '0660 /var/run/my_app',
+}
+```
+
+#### au_remote
+
+This plugin will send events to a remote machine (Central Logger).
+
+To use this plugin:
+
+```puppet
+include '::auditd'
+include '::auditd::audisp::au_remote'
+```
+
+#### audispd_zos_remote
+
+Note that this specific plugin has a configuration file of its own (/etc/audisp/zos-remote.conf). See audispd-zos-remote(8)
+
+To use this plugin:
+
+```puppet
+include '::auditd'
+include '::auditd::audisp::audispd_zos_remote'
+```
+
+#### syslog
+
+This pugin takes events and writes them to syslog. The arguments provided can be the default priority that you want the events written with. And optionally, you can give a second argument indicating the facility that you want events logged to. Valid options are LOG_LOCAL0 through 7.
+
+To use this plugin:
+
+```puppet
+include '::auditd'
+include '::auditd::audisp::syslog'
+```
+
+You can change the `args` for this plugin:
+
+```puppet
+include '::auditd'
+class { '::auditd::audisp::syslog':
+  # LOG_INFO is actually the default...
+  args => 'LOG_INFO',
+}
+```
 
 ## Reference
 
