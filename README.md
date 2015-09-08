@@ -150,12 +150,6 @@ Defaults:
 * Archlinux osfamily: `audit`
 * Gentoo osfamily: `audit`
 
-#### `manage_service`
-
-Whether the **auditd** service should be managed by Puppet.
-
-Default: `true`
-
 #### `service_ensure`
 
 Ensure state of the **auditd** service.

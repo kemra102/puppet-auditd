@@ -36,7 +36,12 @@ Vagrant.configure("2") do |config|
     "cp -r /vagrant/* /etc/puppetlabs/code/environments/production/modules/auditd/;" +
     "puppet module --modulepath=/etc/puppetlabs/code/environments/production/modules/ install puppetlabs/concat --version=1.2.2;" +
     'export PATH=$PATH:/opt/puppetlabs/puppet/bin;' +
-    "puppet apply --pluginsync --modulepath=/etc/puppetlabs/code/environments/production/modules/ /etc/puppetlabs/code/environments/production/modules/auditd/tests/init.pp"
+    'export MODULEPATH=/etc/puppetlabs/code/environments/production/modules/;' +
+    "puppet apply --pluginsync --modulepath=$MODULEPATH \"$MODULEPATH\"auditd/tests/init.pp;" +
+    "puppet apply --pluginsync --modulepath=$MODULEPATH \"$MODULEPATH\"auditd/tests/audisp_syslog.pp;" +
+    "puppet apply --pluginsync --modulepath=$MODULEPATH \"$MODULEPATH\"auditd/tests/audisp_af_unix.pp;" +
+    "puppet apply --pluginsync --modulepath=$MODULEPATH \"$MODULEPATH\"auditd/tests/audisp_au_remote.pp;" +
+    "puppet apply --pluginsync --modulepath=$MODULEPATH \"$MODULEPATH\"auditd/tests/audisp_audispd_zos_remote.pp"
     shell.inline = script
   end
 end

@@ -368,7 +368,6 @@ class auditd (
   $audisp_name             = $::auditd::params::audisp_name,
 
   # Service management variables
-  $manage_service          = $::auditd::params::manage_service,
   $service_restart         = $::auditd::params::service_restart,
   $service_stop            = $::auditd::params::service_stop,
   $service_ensure          = $::auditd::params::service_ensure,
@@ -440,7 +439,6 @@ class auditd (
     validate_string($audisp_name)
   }
 
-  validate_bool($manage_service)
   validate_string($service_restart)
   validate_string($service_stop)
   validate_string($service_ensure)
@@ -465,7 +463,6 @@ class auditd (
     mode    => '0640',
     content => template('auditd/auditd.conf.erb'),
   }
-
   if $manage_audit_files {
     file { '/etc/audit/rules.d':
       ensure  => 'directory',
@@ -477,7 +474,6 @@ class auditd (
       before  => Concat['audit-file'],
     }
   }
-
   concat { $rules_file:
     ensure         => 'present',
     owner          => 'root',
@@ -492,7 +488,6 @@ class auditd (
     content => template('auditd/audit.rules.begin.fragment.erb'),
     order   => '00'
   }
-
   file { '/etc/audisp/audispd.conf':
     ensure  => 'file',
     owner   => 'root',
@@ -507,19 +502,17 @@ class auditd (
   }
 
   # Manage the service
-  if $manage_service {
-    service { 'auditd':
-      ensure    => $service_ensure,
-      enable    => $service_enable,
-      hasstatus => true,
-      restart   => $service_restart,
-      stop      => $service_stop,
-      subscribe => [
-        File['/etc/audit/auditd.conf'],
-        File['/etc/audisp/audispd.conf'],
-        Concat['audit-file'],
-      ],
-    }
+  service { 'auditd':
+    ensure    => $service_ensure,
+    enable    => $service_enable,
+    hasstatus => true,
+    restart   => $service_restart,
+    stop      => $service_stop,
+    subscribe => [
+      File['/etc/audit/auditd.conf'],
+      File['/etc/audisp/audispd.conf'],
+      Concat['audit-file'],
+    ],
   }
 
 }
