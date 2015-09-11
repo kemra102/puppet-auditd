@@ -7,6 +7,7 @@ class auditd::params {
       $audisp_package     = 'audispd-plugins'
       $manage_audit_files = false
       $rules_file         = '/etc/audit/audit.rules'
+      $manage_service     = true
 
       case $::lsbmajdistrelease {
         '8': {
@@ -24,6 +25,7 @@ class auditd::params {
       $audisp_package     = 'audispd-plugins'
       $manage_audit_files = false
       $rules_file         = '/etc/audit/audit.rules'
+      $manage_service     = true
       $service_restart    = '/etc/init.d/auditd restart'
       $service_stop       = '/etc/init.d/auditd stop'
     }
@@ -31,6 +33,7 @@ class auditd::params {
       $package_name       = 'audit'
       $audisp_package     = 'audispd-plugins'
       $manage_audit_files = true
+      $manage_service     = true
 
       if versioncmp($::operatingsystemrelease, '7') >= 0 and $::operatingsystem != 'Amazon' {
         $rules_file      = '/etc/audit/rules.d/puppet.rules'
@@ -47,6 +50,7 @@ class auditd::params {
       $audisp_package     = 'audit'
       $manage_audit_files = false
       $rules_file         = '/etc/audit/audit.rules'
+      $manage_service     = true
       $service_restart    = '/usr/bin/kill -s SIGHUP $(cat /var/run/auditd.pid)'
       $service_stop       = '/usr/bin/kill -s SIGTERM $(cat /var/run/auditd.pid)'
     }
@@ -55,6 +59,7 @@ class auditd::params {
       $audisp_package     = 'audit'
       $manage_audit_files = false
       $rules_file         = '/etc/audit/audit.rules'
+      $manage_service     = true
       $service_restart    = '/etc/init.d/auditd restart'
       $service_stop       = '/etc/init.d/auditd stop'
     }
