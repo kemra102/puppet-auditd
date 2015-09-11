@@ -9,15 +9,6 @@
 # [*package_name*]
 #   The package name for auditd.
 #
-# [*manage_service*]
-#   Whether the auditd service should be managed by Puppet.
-#
-# [*service_ensure*]
-#   Ensure state of the auditd service.
-#
-# [*service_enable*]
-#   Whether the auditd service should be enabled/disabled.
-#
 # [*manage_audit_files*]
 #   If true then /etc/audit/rules.d/ will be managed by this module.
 #   This means any rules not created using this module's defined type
@@ -289,7 +280,9 @@
 #   given as the name_format option.
 #
 # [*manage_service*]
-#   Whether or not the auditd service should be managed.
+#   Whether or not the auditd service should be managed. This should only 
+#   be set to false if you use another module to manage auditd service
+#   such as an selinux module.
 #
 # [*service_restart*]
 #   Command to restart the auditd service.
