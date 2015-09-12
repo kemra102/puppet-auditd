@@ -5,6 +5,7 @@ class auditd::params {
     'Debian': {
       $package_name       = 'auditd'
       $audisp_package     = 'audispd-plugins'
+      $manage_audit_files = false
       $rules_file         = '/etc/audit/audit.rules'
 
       case $::lsbmajdistrelease {
