@@ -220,6 +220,13 @@ Defaults:
 * Archlinux osfamily: `audit`
 * Gentoo osfamily: `audit`
 
+#### `manage_service`
+
+Wether this module should manage the **auditd** service.
+IMPORTANT: Only set to `false` if you use another module to manage **auditd** service.
+
+Default: `true`
+
 #### `service_ensure`
 
 Ensure state of the **auditd** service.

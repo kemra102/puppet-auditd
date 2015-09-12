@@ -105,6 +105,7 @@ class auditd::params {
   $audisp_name             = undef
 
   # Give the option of managing the service.
+  $manage_service         = true
   $service_ensure         = 'running'
   $service_enable         = true
 }

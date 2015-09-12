@@ -9,15 +9,6 @@
 # [*package_name*]
 #   The package name for auditd.
 #
-# [*manage_service*]
-#   Whether the auditd service should be managed by Puppet.
-#
-# [*service_ensure*]
-#   Ensure state of the auditd service.
-#
-# [*service_enable*]
-#   Whether the auditd service should be enabled/disabled.
-#
 # [*manage_audit_files*]
 #   If true then /etc/audit/rules.d/ will be managed by this module.
 #   This means any rules not created using this module's defined type
@@ -289,7 +280,9 @@
 #   given as the name_format option.
 #
 # [*manage_service*]
-#   Whether or not the auditd service should be managed.
+#   Whether or not the auditd service should be managed. This should only 
+#   be set to false if you use another module to manage auditd service
+#   such as an selinux module.
 #
 # [*service_restart*]
 #   Command to restart the auditd service.
@@ -368,6 +361,7 @@ class auditd (
   $audisp_name             = $::auditd::params::audisp_name,
 
   # Service management variables
+  $manage_service          = $::auditd::params::manage_service,
   $service_restart         = $::auditd::params::service_restart,
   $service_stop            = $::auditd::params::service_stop,
   $service_ensure          = $::auditd::params::service_ensure,
@@ -439,6 +433,7 @@ class auditd (
     validate_string($audisp_name)
   }
 
+  validate_bool($manage_service)
   validate_string($service_restart)
   validate_string($service_stop)
   validate_string($service_ensure)
@@ -502,17 +497,19 @@ class auditd (
   }
 
   # Manage the service
-  service { 'auditd':
-    ensure    => $service_ensure,
-    enable    => $service_enable,
-    hasstatus => true,
-    restart   => $service_restart,
-    stop      => $service_stop,
-    subscribe => [
-      File['/etc/audit/auditd.conf'],
-      File['/etc/audisp/audispd.conf'],
-      Concat['audit-file'],
-    ],
+  if $manage_service {
+    service { 'auditd':
+      ensure    => $service_ensure,
+      enable    => $service_enable,
+      hasstatus => true,
+      restart   => $service_restart,
+      stop      => $service_stop,
+      subscribe => [
+        File['/etc/audit/auditd.conf'],
+        File['/etc/audisp/audispd.conf'],
+        Concat['audit-file'],
+      ],
+    }
   }
 
 }
