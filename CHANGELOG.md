@@ -1,3 +1,17 @@
+## 2015-09-12 - Release 2.0.0
+### Summary
+Major release to support Audisp and add significantly more testing.
+
+#### Features
+- Added Vagrant smoke tests for multiple distros.
+- Now supporting Puppet 4.x.
+- Support for Audisp.
+- Updated the manage_service variable and associated documentation.
+
+#### Bugfixes
+- Added metadata-json-lint gem to Gemfile.
+- Updated metadata requirements now issues in puppetlabs/concat with EL7 are fixed.
+
 ## 2015-07-25 - Release 1.1.0
 ### Summary
 Various dependency updates, features & support for SLES.
