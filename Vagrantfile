@@ -1,5 +1,3 @@
-#domain   = 'example.com'
-
 nodes = [
   { :hostname => 'centos70pe',   :ip => '192.168.72.2',  :box => 'puppetlabs/centos-7.0-64-puppet-enterprise' },
   { :hostname => 'centos70',     :ip => '192.168.72.3',  :box => 'puppetlabs/centos-7.0-64-puppet' },
