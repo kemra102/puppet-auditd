@@ -1,4 +1,6 @@
-# auditd [![Build Status](https://travis-ci.org/kemra102/puppet-auditd.svg?branch=master)](https://travis-ci.org/kemra102/puppet-auditd)
+# auditd
+[![Puppet Forge](http://img.shields.io/puppetforge/v/kemra102/auditd.svg)](https://forge.puppetlabs.com/kemra102/auditd)
+[![Build Status](https://travis-ci.org/kemra102/puppet-auditd.svg?branch=master)](https://travis-ci.org/kemra102/puppet-auditd)
 
 #### Table of Contents
 
