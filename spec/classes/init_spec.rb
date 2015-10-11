@@ -9,7 +9,7 @@ describe 'auditd', :type => :class do
     it { 
       should contain_class('auditd')
       should contain_package('auditd').with({
-        'ensure' => 'absent',
+        'ensure' => 'present',
         'name'   => 'audit',
       })
       should contain_file('/etc/audit/auditd.conf').with({
