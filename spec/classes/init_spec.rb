@@ -51,9 +51,10 @@ describe 'auditd', :type => :class do
   end
   context 'default parameters on Amazon Linux' do
     let (:facts) {{
-      :osfamily        => 'RedHat',
-      :operatingsystem => 'Amazon',
-      :concat_basedir  => '/var/lib/puppet/concat',
+      :osfamily               => 'RedHat',
+      :operatingsystemrelease => '7',
+      :operatingsystem        => 'Amazon',
+      :concat_basedir         => '/var/lib/puppet/concat',
     }}
     it {
       should contain_service('auditd').with({

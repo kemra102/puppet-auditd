@@ -466,7 +466,7 @@ class auditd (
       mode    => '0750',
       recurse => true,
       purge   => true,
-      before  => Concat['audit-file'],
+      require => Package[$package_name],
     }
   }
   concat { $rules_file:
