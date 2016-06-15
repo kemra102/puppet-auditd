@@ -21,17 +21,17 @@ admin_space_left = <%= @admin_space_left %>
 admin_space_left_action = <%= @admin_space_left_action %>
 disk_full_action = <%= @disk_full_action %>
 disk_error_action = <%= @disk_error_action %>
-<% if !@tcp_listen_port.nil? %>
+<% if @tcp_listen_port.nil? %>
 tcp_listen_port = <%= @tcp_listen_port %>
 <% end -%>
 tcp_listen_queue = <%= @tcp_listen_queue %>
 tcp_max_per_addr = <%= @tcp_max_per_addr %>
-<% if !@tcp_client_ports.nil? %>
+<% if @tcp_client_ports.nil? %>
 tcp_client_ports = <%= @tcp_client_ports %>
 <% end -%>
 tcp_client_max_idle = <%= @tcp_client_max_idle %>
 enable_krb5 = <%= @enable_krb5 %>
 krb5_principal = <%= @krb5_principal %>
-<% if !@krb5_key_file.nil? %>
+<% if @krb5_key_file.nil? %>
 krb5_key_file = <%= @krb5_key_file %>
 <% end -%>
