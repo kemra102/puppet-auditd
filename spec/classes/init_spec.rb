@@ -117,4 +117,13 @@ describe 'auditd', :type => :class do
       })
     }
   end
+  context 'auditd.conf is well-formed' do
+    let (:facts) {{
+      :osfamily               => 'RedHat',
+      :operatingsystemrelease => '7',
+    }}
+    it {
+      should_not contain_file('/etc/audit/auditd.conf').with_content(/=\s*$/)
+    }
+  end
 end

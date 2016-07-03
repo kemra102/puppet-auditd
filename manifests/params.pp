@@ -32,7 +32,7 @@ class auditd::params {
       $audisp_package     = 'audispd-plugins'
       $manage_audit_files = true
 
-      if versioncmp($::operatingsystemrelease, '7') >= 0 and $::operatingsystem != 'Amazon' {
+      if $::operatingsystem != 'Amazon' and versioncmp($::operatingsystemrelease, '7') >= 0 {
         $rules_file      = '/etc/audit/rules.d/puppet.rules'
         $service_restart = '/usr/libexec/initscripts/legacy-actions/auditd/restart'
         $service_stop    = '/usr/libexec/initscripts/legacy-actions/auditd/stop'
