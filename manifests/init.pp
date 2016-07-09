@@ -440,9 +440,9 @@ class auditd (
   validate_bool($service_enable)
 
   # Install package
-  package { 'auditd':
+  package { $package_name:
     ensure => 'present',
-    name   => $package_name,
+    alias  => 'auditd',
     before => [
       File['/etc/audit/auditd.conf'],
       File['/etc/audisp/audispd.conf'],
