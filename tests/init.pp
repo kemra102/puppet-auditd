@@ -13,5 +13,5 @@ class { '::auditd':
       order   => '02',
     },
   },
-  audisp_name_format       => 'fqd',
+  audisp_name_format      => 'fqd',
 }
