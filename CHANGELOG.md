@@ -1,3 +1,13 @@
+## 2015-07-12 - Release 2.0.1
+### Summary
+Various bug fixes.
+
+#### Bugfixes
+- Switched from `validate_integer` to `validate_numeric` for `$order` to support more formats for ordering numbers.
+- Fixes `undef`/`nil` checks in ERB templates.
+- Fixed check for Amazon Linux.
+- Multiple fixes to tests.
+
 ## 2015-09-12 - Release 2.0.0
 ### Summary
 Major release to support Audisp and add significantly more testing.

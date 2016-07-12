@@ -1,6 +1,6 @@
 {
   "name": "kemra102-auditd",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "Danny Roberts",
   "summary": "Manage the audit daemon and it's rules.",
   "license": "BSD-2-Clause",
