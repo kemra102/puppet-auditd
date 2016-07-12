@@ -18,6 +18,7 @@ tags
 pkg
 
 ## testing
+Gemfile.lock
 spec/fixtures
 
 ## vagrant

@@ -6,9 +6,9 @@ describe 'auditd', :type => :class do
       :operatingsystemrelease => '7',
       :concat_basedir         => '/var/lib/puppet/concat',
     }}
-    it { 
+    it {
       should contain_class('auditd')
-      should contain_package('auditd').with({
+      should contain_package('audit').with({
         'ensure' => 'present',
         'name'   => 'audit',
       })
@@ -98,7 +98,7 @@ describe 'auditd', :type => :class do
       :concat_basedir => '/var/lib/puppet/concat',
     }}
     it {
-      should contain_package('auditd').with_name('audit')
+      should contain_package('audit')
       should contain_service('auditd').with({
         'restart' => '/usr/bin/kill -s SIGHUP $(cat /var/run/auditd.pid)',
         'stop'    => '/usr/bin/kill -s SIGTERM $(cat /var/run/auditd.pid)',
@@ -111,7 +111,7 @@ describe 'auditd', :type => :class do
       :concat_basedir => '/var/lib/puppet/concat',
     }}
     it {
-      should contain_package('auditd').with_name('audit')
+      should contain_package('audit')
       should contain_service('auditd').with({
         'restart' => '/etc/init.d/auditd restart',
         'stop'    => '/etc/init.d/auditd stop',
