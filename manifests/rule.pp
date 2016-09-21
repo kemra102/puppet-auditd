@@ -9,7 +9,10 @@ define auditd::rule($content='', $order=10) {
     $body = $content
   }
 
-  validate_numeric($order)
+  if (!is_numeric($order) and !is_string($order))
+  {
+    fail('$order must be a string or an integer')
+  }
   validate_string($body)
 
   concat::fragment{ "auditd_fragment_${name}":
