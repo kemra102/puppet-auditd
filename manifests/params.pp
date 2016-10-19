@@ -21,11 +21,20 @@ class auditd::params {
     }
     'Suse': {
       $package_name       = 'audit'
-      $audisp_package     = 'audispd-plugins'
-      $manage_audit_files = false
-      $rules_file         = '/etc/audit/audit.rules'
-      $service_restart    = '/etc/init.d/auditd restart'
-      $service_stop       = '/etc/init.d/auditd stop'
+      if versioncmp($::operatingsystemrelease, '12') >= 0 and $::operatingsystem == 'SLES' {
+        $audisp_package     = 'audit-audispd-plugins'
+        $manage_audit_files = true
+        $rules_file         = '/etc/audit/rules.d/puppet.rules'
+        $service_restart    = '/bin/systemctl restart auditd'
+        $service_stop       = '/bin/systemctl stop auditd'
+      }
+      else {
+        $audisp_package     = 'audispd-plugins'
+        $manage_audit_files = false
+        $rules_file         = '/etc/audit/audit.rules'
+        $service_restart    = '/etc/init.d/auditd restart'
+        $service_stop       = '/etc/init.d/auditd stop'
+      }
     }
     'RedHat': {
       $package_name       = 'audit'

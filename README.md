@@ -247,7 +247,7 @@ If **true** then **/etc/audit/rules.d/** will be managed by this module. This me
 
 Defaults:
 
-* EL7: `true`
+* EL7/SLES12: `true`
 * Others: `false`
 
 #### `rules_file`
