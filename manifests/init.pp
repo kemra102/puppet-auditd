@@ -280,7 +280,7 @@
 #   given as the name_format option.
 #
 # [*manage_service*]
-#   Whether or not the auditd service should be managed. This should only 
+#   Whether or not the auditd service should be managed. This should only
 #   be set to false if you use another module to manage auditd service
 #   such as an selinux module.
 #
@@ -483,7 +483,7 @@ class auditd (
   concat::fragment{ 'auditd_rules_begin':
     target  => $rules_file,
     content => template('auditd/audit.rules.begin.fragment.erb'),
-    order   => '00'
+    order   => 0
   }
   file { '/etc/audisp/audispd.conf':
     ensure  => 'file',

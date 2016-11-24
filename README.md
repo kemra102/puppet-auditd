@@ -96,14 +96,14 @@ include '::auditd'
 
 auditd::rule { 'watch for updates to users':
   content => '-w /etc/passwd -p wa -k identity',
-  order   => '01',
+  order   => 1,
 }
 auditd::rule { 'audit for time changes':
   content => '-a always,exit -S clock_settime -k time-change',
-  order   => '02',
+  order   => 2,
 }
 auditd::rule { '-a always,exit -S sethostname -S setdomainname -k system-locale':
-  order   => '03',
+  order   => 3,
 }
 ```
 
@@ -114,11 +114,11 @@ class { '::auditd':
   rules => {
     'watch for changes to passwd file' => {
       content => '-w /etc/passwd -p wa -k identity',
-      order   => '01',
+      order   => 1,
     },
     'watch for changes to hosts file'  => {
       content => '-w /etc/hosts -p wa -k system-locale',
-      order   => '02',
+      order   => 2,
     },
   },
 }

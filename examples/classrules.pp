@@ -6,11 +6,11 @@ class { '::auditd':
   rules                   => {
     'watch for changes to passwd file' => {
       content => '-w /etc/passwd -p wa -k identity',
-      order   => '01',
+      order   => 1,
     },
     'watch for changes to hosts file'  => {
       content => '-w /etc/hosts -p wa -k system-locale',
-      order   => '02',
+      order   => 2,
     },
   },
 }
