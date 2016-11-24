@@ -408,7 +408,9 @@ class auditd (
     validate_integer($tcp_listen_port)
   }
   validate_integer($tcp_listen_queue)
-  validate_integer($tcp_max_per_addr)
+  if $tcp_max_per_addr != undef {
+    validate_integer($tcp_max_per_addr)
+  }
   if $tcp_client_ports != undef {
     validate_string($tcp_client_ports)
   }
