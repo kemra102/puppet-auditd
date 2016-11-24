@@ -9,9 +9,8 @@ matrix:
     env: PUPPET_GEM_VERSION="~> 3.0"
   - rvm: 2.0.0
     env: PUPPET_GEM_VERSION="~> 3.0"
-  - rvm: 2.0.0
+  - rvm: 2.1.0
     env: PUPPET_GEM_VERSION="~> 4.0"
 branches:
   only:
     - master
-
