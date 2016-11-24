@@ -3,6 +3,7 @@ describe 'auditd', :type => :class do
   context 'default parameters on RedHat 7' do
     let (:facts) {{
       :osfamily               => 'RedHat',
+      :operatingsystem        => 'RedHat',
       :operatingsystemrelease => '7',
       :concat_basedir         => '/var/lib/puppet/concat',
     }}
@@ -39,6 +40,7 @@ describe 'auditd', :type => :class do
   context 'default parameters on RedHat 6' do
     let (:facts) {{
       :osfamily               => 'RedHat',
+      :operatingsystem        => 'RedHat',
       :operatingsystemrelease => '6',
       :concat_basedir         => '/var/lib/puppet/concat',
     }}
@@ -52,6 +54,7 @@ describe 'auditd', :type => :class do
   context 'default parameters on Amazon Linux' do
     let (:facts) {{
       :osfamily               => 'RedHat',
+      :operatingsystem        => 'RedHat',
       :operatingsystemrelease => '7',
       :operatingsystem        => 'Amazon',
       :concat_basedir         => '/var/lib/puppet/concat',
@@ -66,6 +69,7 @@ describe 'auditd', :type => :class do
   context 'default parameters on Debian 8' do
     let (:facts) {{
       :osfamily          => 'Debian',
+      :operatingsystem   => 'Debian',
       :lsbmajdistrelease => '8',
       :concat_basedir    => '/var/lib/puppet/concat',
     }}
@@ -80,6 +84,7 @@ describe 'auditd', :type => :class do
   context 'default parameteres on Ubuntu 14.04' do
     let (:facts) {{
       :osfamily          => 'Debian',
+      :operatingsystem   => 'Debian',
       :operatingsystem   => 'Ubuntu',
       :lsbmajdistrelease => '14.04',
       :concat_basedir    => '/var/lib/puppet/concat',
@@ -94,8 +99,9 @@ describe 'auditd', :type => :class do
   end
   context 'default parameters on Archlinux' do
     let (:facts) {{
-      :osfamily       => 'Archlinux',
-      :concat_basedir => '/var/lib/puppet/concat',
+      :osfamily        => 'Archlinux',
+      :operatingsystem => 'Archlinux',
+      :concat_basedir  => '/var/lib/puppet/concat',
     }}
     it {
       should contain_package('audit')
@@ -107,8 +113,9 @@ describe 'auditd', :type => :class do
   end
   context 'default parameters on Gentoo' do
     let (:facts) {{
-      :osfamily       => 'Gentoo',
-      :concat_basedir => '/var/lib/puppet/concat',
+      :osfamily        => 'Gentoo',
+      :operatingsystem => 'Gentoo',
+      :concat_basedir  => '/var/lib/puppet/concat',
     }}
     it {
       should contain_package('audit')
@@ -121,6 +128,7 @@ describe 'auditd', :type => :class do
   context 'auditd.conf is well-formed' do
     let (:facts) {{
       :osfamily               => 'RedHat',
+      :operatingsystem        => 'RedHat',
       :operatingsystemrelease => '7',
     }}
     it {
