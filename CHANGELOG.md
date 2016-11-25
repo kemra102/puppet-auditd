@@ -1,3 +1,12 @@
+## 2016-11-25 - Release 2.1.0
+### Summary
+Various bug fixes.
+
+#### Bugfixes
+- Fix [Issues #12](https://github.com/kemra102/puppet-auditd/issues/12): Changed to using integers instead of strings to define order of rules.
+- Merge [Pull #17](https://github.com/kemra102/puppet-auditd/pull/17): Fix default params for SLES 12.
+- Merge [Pull #19](https://github.com/kemra102/puppet-auditd/pull/19): Makes `tcp_max_per_addr` optional to support EL5.
+
 ## 2015-07-12 - Release 2.0.1
 ### Summary
 Various bug fixes.
