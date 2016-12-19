@@ -34,6 +34,12 @@
 #   permissions. The default is root. The group name can be either numeric
 #   or spelled out.
 #
+# [*write_logs*]
+#   This yes/no keyword determines whether or not to write logs to the disk.
+#   There are two options: yes and no. It is meant to replace the usage of
+#   log_format = NOLOG. This will default to undef since it is only available
+#   in version >= 2.5.2.
+#
 # [*priority_boost*]
 #   This is a non-negative number that tells the audit damon how much of
 #   a priority boost it should take. The default is 3. No change is 0.
@@ -321,6 +327,7 @@ class auditd (
   $log_file                = $::auditd::params::log_file,
   $log_format              = $::auditd::params::log_format,
   $log_group               = $::auditd::params::log_group,
+  $write_logs              = $::auditd::params::write_logs,
   $priority_boost          = $::auditd::params::priority_boost,
   $flush                   = $::auditd::params::flush,
   $freq                    = $::auditd::params::freq,
@@ -379,6 +386,10 @@ class auditd (
   validate_re($log_format, '^(RAW|NOLOG)$',
     "${log_format} is not supported for log_format. Allowed values are 'RAW' and 'NOLOG'.")
   validate_string($log_group)
+  if $write_logs != undef {
+    validate_re($write_logs, '^(yes|no)$',
+      "${write_logs} is not supported for write_logs. Allowed values are 'yes' and 'no'.")
+  }
   validate_integer($priority_boost)
   validate_re($flush, '^(none|incremental|data|sync)$',
     "${flush} is not supported for flush. Allowed values are 'none', 'incremental', 'data' and 'sync'.")
