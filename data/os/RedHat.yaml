@@ -1,0 +1,6 @@
+---
+auditd::audisp_package: 'audispd-plugins'
+auditd::manage_audit_files: true
+auditd::rules_file: '/etc/audit/audit.rules'
+auditd::service_restart: '/etc/init.d/auditd restart'
+auditd::service_stop: '/etc/init.d/auditd stop'

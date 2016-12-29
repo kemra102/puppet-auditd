@@ -58,11 +58,12 @@
     },
     {
       "name": "puppet",
-      "version_requirement": ">= 3.0.0"
+      "version_requirement": ">= 4.3.0"
     }
   ],
   "dependencies": [
-    {"name":"puppetlabs-stdlib","version_requirement":">= 4.6.0"},
+    {"name":"puppetlabs-stdlib","version_requirement":">= 4.13.0"},
     {"name":"puppetlabs-concat","version_requirement":">= 1.1.0"}
-  ]
+  ],
+  "data_provider": "hiera"
 }

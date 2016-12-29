@@ -1,0 +1,18 @@
+---
+version: 4
+datadir: 'data'
+hierarchy:
+  - name: 'OS major version'
+    backend: 'yaml'
+    path: "os/%{facts.os.family}/%{facts.os.name}/%{facts.os.release.major}"
+
+  - name: 'OS name'
+    backend: 'yaml'
+    path: "os/%{facts.os.family}/%{facts.os.name}"
+
+  - name: 'OS family'
+    backend: 'yaml'
+    path: "os/%{facts.os.family}"
+
+  - name: 'common'
+    backend: 'yaml'

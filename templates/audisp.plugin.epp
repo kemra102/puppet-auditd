@@ -1,0 +1,11 @@
+#
+# This file is managed by Puppet.
+#
+active = <%= $real_active %>
+direction = <%= $direction %>
+path = <%= $path %>
+type = <%= $type -%>
+<% if $args { %>
+args = <%= $args %>
+<% } -%>
+format = <%= $format %>

@@ -1,0 +1,4 @@
+---
+auditd::rules_file: '/etc/audit/rules.d/puppet.rules'
+auditd::service_restart: '/usr/libexec/initscripts/legacy-actions/auditd/restart'
+auditd::service_stop: '/usr/libexec/initscripts/legacy-actions/auditd/stop'

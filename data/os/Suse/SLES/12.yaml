@@ -1,0 +1,6 @@
+---
+auditd::audisp_package: 'audit-audispd-plugins'
+auditd::manage_audit_files: true
+auditd::rules_file: '/etc/audit/rules.d/puppet.rules'
+auditd::service_restart: '/bin/systemctl restart auditd'
+auditd::service_stop: '/bin/systemctl stop auditd'
