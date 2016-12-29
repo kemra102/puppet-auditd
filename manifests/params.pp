@@ -76,6 +76,7 @@ class auditd::params {
   $log_file                = '/var/log/audit/audit.log'
   $log_format              = 'RAW'
   $log_group               = 'root'
+  $write_logs              = undef
   $priority_boost          = '4'
   $flush                   = 'incremental'
   $freq                    = '20'

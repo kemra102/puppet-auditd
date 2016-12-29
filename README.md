@@ -277,6 +277,12 @@ This  keyword  specifies  the  group  that is applied to the log file's permissi
 
 Default: `root`
 
+#### `write_logs`
+
+This yes/no keyword determines whether or not to write logs to the disk. There are two options: yes and no. It is meant to replace the usage of `log_format = NOLOG`. This will default to undef since it is only available in version >= 2.5.2.
+
+Default: `undef`
+
 #### `priority_boost`
 
 This is a non-negative number that tells the audit damon how much of a priority boost it should take. The default is 3. No change is 0.
