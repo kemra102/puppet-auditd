@@ -1,3 +1,10 @@
+## 2016-12-29 - Release 2.2.0
+### Summary
+Small feature release.
+
+#### Features
+- Merge [Pull #21](https://github.com/kemra102/puppet-auditd/pull/21): Added support for `write_logs` option for `auditd` versions `>= 2.5.2`. 
+
 ## 2016-11-25 - Release 2.1.0
 ### Summary
 Various bug fixes.
