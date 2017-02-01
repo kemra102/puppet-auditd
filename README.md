@@ -37,9 +37,9 @@ This module handles installation of the auditd daemon, manages its main configur
 
 ### Setup Requirements
 
-Arch Linux does not compile in auditing support to their Kernel by default. To enable support you will have to enable this support as per [this Arch Wiki page](https://wiki.archlinux.org/index.php/Audit_framework#Installation).
+Arch Linux does not compile in auditing support to their Kernel by default. To enable support you will have to enable this support as per [this Arch Wiki page](https://wiki.archlinux.org/index.php/Audit_framework#Installation). Other supported Linux distros should not need any special setup.
 
-Other supported Linux distros should not need any special setup.
+When the `audisp-cef` plugin is used, the `auditd::audisp::cef` class depends on the `audisp-cef` package, which may not be provided by your distibution's default repositories. The `deb` and `npm` targets in [audisp-cef](https://github.com/gdestuynder/audisp-cef)'s makefile can be used to package the plugin, ready to deploy to your own repository.
 
 ### Beginning with auditd
 
@@ -175,6 +175,29 @@ To use this plugin:
 include '::auditd'
 include '::auditd::audisp::audispd_zos_remote'
 ```
+
+#### cef
+
+This plugin aggregates events with the same message ID and writes them to syslog as a single message in the Common Event Format. Documentation for messages produced by this plugin can be found [here](https://github.com/gdestuynder/audisp-cef/blob/master/messages_format.rst). Depends on the `audisp-cef` package; see the [Setup Requirements](#setup-requirements).
+
+To use this plugin:
+
+```puppet
+include '::auditd'
+include '::auditd:audisp::cef'
+```
+
+Optionally, the syslog facility to use for messages can be specified as an integer:
+
+```puppet
+include '::auditd'
+class { '::auditd::audisp::cef':
+    # Facility 'local5' is 21 << 3
+    facility => 168,
+}
+```
+
+`168` is the default.
 
 #### syslog
 
