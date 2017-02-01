@@ -1,10 +1,6 @@
 class auditd::audisp::cef (
   #local5 is 21<<3
   $facility = 168,
-
-  # These two are possibly unused
-  $remote_server = '127.0.0.1',
-  $port = 514
 ) {
 
   package { 'audisp-cef':
