@@ -10,7 +10,7 @@ class auditd::audisp::cef (
     path => '/sbin/audisp-cef',
   }
 
-  file { "/etc/audisp/audisp-cef.conf":
+  file { '/etc/audisp/audisp-cef.conf':
     ensure  => 'file',
     owner   => 'root',
     group   => 'root',
