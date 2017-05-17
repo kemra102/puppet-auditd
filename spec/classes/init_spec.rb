@@ -54,7 +54,6 @@ describe 'auditd', :type => :class do
   context 'default parameters on Amazon Linux' do
     let (:facts) {{
       :osfamily               => 'RedHat',
-      :operatingsystem        => 'RedHat',
       :operatingsystemrelease => '7',
       :operatingsystem        => 'Amazon',
       :concat_basedir         => '/var/lib/puppet/concat',
@@ -84,7 +83,6 @@ describe 'auditd', :type => :class do
   context 'default parameteres on Ubuntu 14.04' do
     let (:facts) {{
       :osfamily          => 'Debian',
-      :operatingsystem   => 'Debian',
       :operatingsystem   => 'Ubuntu',
       :lsbmajdistrelease => '14.04',
       :concat_basedir    => '/var/lib/puppet/concat',
