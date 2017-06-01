@@ -52,7 +52,9 @@ include '::auditd'
 or
 
 ```puppet
-class { 'auditd': }
+class { 'auditd': 
+   ensure => 'present',
+}
 ```
 
 This will ensure auditd is installed with a basic configuration and the service is running but it will not have any rules.
