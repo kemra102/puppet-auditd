@@ -45,7 +45,7 @@
 #   a priority boost it should take. The default is 3. No change is 0.
 #
 # [*flush*]
-#   Valid values are none, incremental, data, and sync. If set to none, no
+#   Valid values are none, incremental, incremental_async, data, and sync. If set to none, no
 #   special effort is made to flush the audit records to disk. If set to
 #   incremental, Then the freq parameter is used to determine how often an
 #   explicit flush to disk is issued. The data parameter tells the audit
@@ -305,6 +305,9 @@
 # [*rules*]
 #   Hash of auditd rules to be applied using the audit::rule defined type.
 #
+# [*ensure*]
+#   The ensure of the auditd package (example: present, latest, version#)
+#
 # === Examples
 #
 #  class { 'auditd':
@@ -376,6 +379,7 @@ class auditd (
 
   # Optionally define rules through main class
   $rules                   = {},
+  $ensure                  = $::auditd::params::ensure
 
 ) inherits auditd::params {
 
@@ -391,8 +395,8 @@ class auditd (
       "${write_logs} is not supported for write_logs. Allowed values are 'yes' and 'no'.")
   }
   validate_integer($priority_boost)
-  validate_re($flush, '^(none|incremental|data|sync)$',
-    "${flush} is not supported for flush. Allowed values are 'none', 'incremental', 'data' and 'sync'.")
+  validate_re($flush, '^(none|incremental|incremental_async|data|sync)$',
+    "${flush} is not supported for flush. Allowed values are 'none', 'incremental', 'incremental_async', 'data' and 'sync'.")
   validate_integer($freq)
   validate_integer($num_logs)
   validate_re($disp_qos, '^(lossy|lossless)$',
@@ -451,10 +455,12 @@ class auditd (
   validate_string($service_stop)
   validate_string($service_ensure)
   validate_bool($service_enable)
+  
+  validate_string($ensure)
 
   # Install package
   package { $package_name:
-    ensure => 'present',
+    ensure => $ensure,
     alias  => 'auditd',
     before => [
       File['/etc/audit/auditd.conf'],
