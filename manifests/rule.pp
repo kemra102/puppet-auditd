@@ -2,7 +2,11 @@
 ##    content: Rule definition
 ##    order:   Relative order of this rule
 
-define auditd::rule($content='', $order=10) {
+define auditd::rule(
+  $target  = 'undefined',
+  $content = '',
+  $order   = 10,
+) {
   if $content == '' {
     $body = $name
   } else {
@@ -16,7 +20,7 @@ define auditd::rule($content='', $order=10) {
   validate_string($body)
 
   concat::fragment{ "auditd_fragment_${name}":
-    target  => $auditd::params::rules_file,
+    target  => $target,
     order   => $order,
     content => $body,
   }
