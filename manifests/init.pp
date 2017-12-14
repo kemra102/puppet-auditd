@@ -459,7 +459,7 @@ class auditd (
     before => [
       File['/etc/audit/auditd.conf'],
       File['/etc/audisp/audispd.conf'],
-      Concat['audit-file'],
+      Concat[$rules_file],
     ],
   }
 
@@ -489,7 +489,6 @@ class auditd (
     mode           => '0640',
     ensure_newline => true,
     warn           => true,
-    alias          => 'audit-file',
   }
   concat::fragment{ 'auditd_rules_begin':
     target  => $rules_file,
@@ -520,7 +519,7 @@ class auditd (
       subscribe => [
         File['/etc/audit/auditd.conf'],
         File['/etc/audisp/audispd.conf'],
-        Concat['audit-file'],
+        Concat[$rules_file],
       ],
     }
   }
