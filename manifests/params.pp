@@ -6,7 +6,7 @@ class auditd::params {
       $package_name       = 'auditd'
       $audisp_package     = 'audispd-plugins'
       $manage_audit_files = false
-      $rules_file         = '/etc/audit/audit.rules'
+      $rules_file         = '/etc/audit/rules.d/audit.rules'
 
       case $::lsbmajdistrelease {
         '8': {
