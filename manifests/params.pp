@@ -102,6 +102,7 @@ class auditd::params {
   $enable_krb5             = 'no'
   $krb5_principal          = 'auditd'
   $krb5_key_file           = undef
+  $continue_loading        = false # Continue loading rules in spite of an error.
 
   # Rules Header variables
   $buffer_size = '8192'

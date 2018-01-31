@@ -353,6 +353,7 @@ class auditd (
   $enable_krb5             = $::auditd::params::enable_krb5,
   $krb5_principal          = $::auditd::params::krb5_principal,
   $krb5_key_file           = $::auditd::params::krb5_key_file,
+  $continue_loading        = $::auditd::params::continue_loading,
 
   # Variables for Audit files
   $rules_file              = $::auditd::params::rules_file,
@@ -432,6 +433,7 @@ class auditd (
   if $tcp_client_ports != undef {
     validate_absolute_path($krb5_key_file)
   }
+  validate_bool($continue_loading)
 
   validate_absolute_path($rules_file)
   validate_bool($manage_audit_files)
