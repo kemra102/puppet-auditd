@@ -215,6 +215,8 @@ You can change the `args` for this plugin:
 ```puppet
 include '::auditd'
 class { '::auditd::audisp::syslog':
+  # Default value is false, which will keep remain disabled logging to syslog even though you call class '::auditd::audisp::syslog'
+  active => true,
   # LOG_INFO is actually the default...
   args => 'LOG_INFO',
 }
