@@ -4,4 +4,9 @@
 # Set Buffer size - increase for Busy Systems
 -b <%= @buffer_size %>
 
+<% if @continue_loading == true -%>
+# Continue loading rules in spite of an error.
+-c
+<% end -%>
+
 # Puppet Managed Custom rules begin here:
