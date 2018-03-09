@@ -45,13 +45,16 @@
 #   a priority boost it should take. The default is 3. No change is 0.
 #
 # [*flush*]
-#   Valid values are none, incremental, data, and sync. If set to none, no
-#   special effort is made to flush the audit records to disk. If set to
-#   incremental, Then the freq parameter is used to determine how often an
-#   explicit flush to disk is issued. The data parameter tells the audit
-#   daemon to keep the data portion of the disk file sync'd at all times.
-#   The sync option tells the audit daemon to keep both the data and meta-data
-#   fully sync'd with every write to disk.
+#   Valid values are none, incremental, incremental_async, data, and sync. If
+#   set to none, no special effort is made to flush the audit records to
+#   disk. If set to incremental, Then the freq parameter is used to determine
+#   how often an explicit flush to disk is issued. The incremental_async
+#   parameter is very much like incremental except the flushing is done
+#   asynchronously for higher performance. The data parameter tells the audit
+#   daemon to keep the data portion of the disk file sync'd at all times. The
+#   sync option tells the audit daemon to keep both the data and meta-data
+#   fully sync'd with every write to disk. The default value is
+#   incremental_async.
 #
 # [*freq*]
 #   This is a non-negative number that tells the audit damon how many records
@@ -391,8 +394,8 @@ class auditd (
       "${write_logs} is not supported for write_logs. Allowed values are 'yes' and 'no'.")
   }
   validate_integer($priority_boost)
-  validate_re($flush, '^(none|incremental|data|sync)$',
-    "${flush} is not supported for flush. Allowed values are 'none', 'incremental', 'data' and 'sync'.")
+  validate_re($flush, '^(none|incremental|incremental_async|data|sync)$',
+    "${flush} is not supported for flush. Allowed values are 'none', 'incremental', 'incremental_async', 'data' and 'sync'.")
   validate_integer($freq)
   validate_integer($num_logs)
   validate_re($disp_qos, '^(lossy|lossless)$',
