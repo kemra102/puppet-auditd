@@ -26,7 +26,9 @@ describe 'auditd', :type => :class do
         'mode'           => '0640',
         'ensure_newline' => 'true',
         'warn'           => 'true',
-        'alias'          => 'audit-file',
+      })
+      should_not contain_concat('/etc/audit/rules.d/puppet.rules').with({
+        'alias' => 'audit-file',
       })
       should contain_service('auditd').with({
         'ensure'    => 'running',
