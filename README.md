@@ -462,6 +462,12 @@ Value for Buffer size in `rules_file` header.
 
 Default: `8192`
 
+#### `continue_loading`
+
+Determines if `auditd` will continue to load rules if it encounters any errors.
+
+Default: `false`
+
 #### `audisp_q_depth`
 
 This is a numeric value that tells how big to make the internal queue of the audit event dispatcher. A bigger queue lets it handle a flood of events better, but could hold events that are not processed when the daemon is terminated. If you get messages in syslog about events getting dropped, increase this value.
