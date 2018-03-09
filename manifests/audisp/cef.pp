@@ -5,8 +5,8 @@ class auditd::audisp::cef (
 
   package { 'audisp-cef':
     ensure => 'present',
-  } ->
-  auditd::audisp::plugin { 'au-cef':
+  }
+  -> auditd::audisp::plugin { 'au-cef':
     path => '/sbin/audisp-cef',
   }
 
