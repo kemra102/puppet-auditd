@@ -509,8 +509,12 @@ class auditd (
   }
 
   # If a hash of rules is supplied with class then call auditd::rules defined type to apply them
+  $rules_defaults = {
+    target => $rules_file,
+  }
+
   if $rules {
-    create_resources('::auditd::rule', $rules)
+    create_resources('::auditd::rule', $rules, $rules_defaults)
   }
 
   # Manage the service
