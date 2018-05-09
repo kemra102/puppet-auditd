@@ -16,7 +16,7 @@ define auditd::rule($content='', $order=10) {
   validate_string($body)
 
   concat::fragment{ "auditd_fragment_${name}":
-    target  => $auditd::params::rules_file,
+    target  => $auditd::rules_file,
     order   => $order,
     content => $body,
   }
