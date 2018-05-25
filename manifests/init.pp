@@ -509,8 +509,10 @@ class auditd (
   }
 
   # If a hash of rules is supplied with class then call auditd::rules defined type to apply them
-  if $rules {
-    create_resources('::auditd::rule', $rules)
+  $rules.each |$key,$opts| { 
+    auditd::rule { $key:
+      * => pick($opts,{}),
+    }
   }
 
   # Manage the service
