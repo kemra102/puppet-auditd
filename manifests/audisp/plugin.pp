@@ -1,5 +1,5 @@
 define auditd::audisp::plugin (
-  $active    = true,
+  $active    = false,
   $direction = 'out',
   $path      = undef,
   $type      = 'always',
