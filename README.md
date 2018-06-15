@@ -290,7 +290,14 @@ Default: `/var/log/audit/audit.log`
 
 #### `log_format`
 
-The log format describes how the information should be stored on disk. There are 2 options: RAW and NOLOG. If set to RAW , the audit records will be stored in a format exactly as the kernel sends it. If this option is set to NOLOG then all audit information is discarded instead of writing to disk. This mode does not affect data sent to the audit event dispatcher.
+The log format describes how the information should be stored on disk. There are 3 options:
+
+* RAW
+  Audit records will be stored in a format exactly as sent by kernel
+* ENRICHED
+  resolve all uid, gid, syscall, architecture, and socket addresses
+* NOLOG
+  deprecated in modern auditd versions (set write_logs option to no instead)
 
 Default: `RAW`
 
