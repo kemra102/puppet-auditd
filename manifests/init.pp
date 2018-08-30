@@ -23,11 +23,14 @@
 #
 # [*log_format*]
 #   The log format describes how the information should be stored on disk.
-#   There are 2 options: RAW and NOLOG. If set to RAW , the audit records
-#   will be stored in a format exactly as the kernel sends it. If this
-#   option is set to NOLOG then all audit information is discarded instead
-#   of writing to disk. This mode does not affect data sent to the audit
-#   event dispatcher.
+#   There are 3 options: 
+#   * RAW, 
+#	audit records will be stored in a format exactly as sent by kernel
+#   * ENRICHED
+#   	resolve all uid, gid, syscall, architecture, and socket addresses
+#   * NOLOG
+#   	deprecated in modern auditd versions (set write_logs option to no 
+#   	instead)
 #
 # [*log_group*]
 #   This keyword specifies the group that is applied to the log file's
@@ -387,8 +390,8 @@ class auditd (
   validate_string($package_name)
 
   validate_absolute_path($log_file)
-  validate_re($log_format, '^(RAW|NOLOG)$',
-    "${log_format} is not supported for log_format. Allowed values are 'RAW' and 'NOLOG'.")
+  validate_re($log_format, '^(RAW|NOLOG|ENRICHED)$',
+    "${log_format} is not supported for log_format. Allowed values are 'RAW', 'ENRICHED' and 'NOLOG'.")
   validate_string($log_group)
   if $write_logs != undef {
     validate_re($write_logs, '^(yes|no)$',
@@ -509,7 +512,7 @@ class auditd (
   }
 
   # If a hash of rules is supplied with class then call auditd::rules defined type to apply them
-  $rules.each |$key,$opts| { 
+  $rules.each |$key,$opts| {
     auditd::rule { $key:
       * => pick($opts,{}),
     }
