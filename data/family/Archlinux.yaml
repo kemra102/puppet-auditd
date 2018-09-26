@@ -1,0 +1,3 @@
+---
+auditd::service_restart: '/usr/bin/kill -s SIGHUP $(cat /var/run/auditd.pid)'
+auditd::service_stop: '/usr/bin/kill -s SIGTERM $(cat /var/run/auditd.pid)'

@@ -1,0 +1,58 @@
+---
+# Packages
+auditd::package_name: 'audit'
+auditd::audisp_package: 'audispd-plugins'
+
+# Service Management
+auditd::manage_service: true
+auditd::service_enable: true
+auditd::service_ensure: 'running'
+auditd::service_restart: '/bin/systemctl restart auditd'
+auditd::service_stop: '/bin/systemctl stop auditd'
+
+# Config file
+auditd::manage_audit_files: false
+auditd::rules_file: '/etc/audit/audit.rules'
+
+# Main config file variables
+auditd::log_file: '/var/log/audit/audit.log'
+auditd::log_format: 'RAW'
+auditd::log_group: 'root'
+auditd::write_logs: undef
+auditd::priority_boost: 4
+auditd::flush: 'incremental_async'
+auditd::freq: 20
+auditd::num_logs: 5
+auditd::disp_qos: 'lossy'
+auditd::dispatcher: '/sbin/audispd'
+auditd::name_format: 'none'
+auditd::admin: $hostname
+auditd::max_log_file: 6
+auditd::max_log_file_action: 'rotate'
+auditd::space_left: 75
+auditd::space_left_action: 'syslog'
+auditd::action_mail_acct: 'root'
+auditd::admin_space_left: 50
+auditd::admin_space_left_action: 'suspend'
+auditd::disk_full_action: 'suspend'
+auditd::disk_error_action: 'suspend'
+auditd::tcp_listen_port: undef
+auditd::tcp_listen_queue: 5
+auditd::tcp_max_per_addr: 1
+auditd::tcp_client_ports: undef
+auditd::tcp_client_max_idle: 0
+auditd::enable_krb5: 'no'
+auditd::krb5_principal: 'auditd'
+auditd::krb5_key_file: undef
+
+# Rules Header variables
+auditd::buffer_size: 8192
+auditd::continue_loading: false
+
+# Audisp main config variables
+auditd::audisp_q_depth: 80
+auditd::audisp_overflow_action: 'syslog'
+auditd::audisp_priority_boost: 4
+auditd::audisp_max_restarts: 10
+auditd::audisp_name_format: 'none'
+auditd::audisp_name: undef

@@ -1,0 +1,3 @@
+---
+auditd::package_name: 'auditd'
+auditd::rules_file: '/etc/audit/rules.d/audit.rules'
