@@ -7,7 +7,7 @@ nodes = [
   { :hostname => 'ubuntu1404',   :ip => '192.168.72.7',  :box => 'puppetlabs/ubuntu-14.04-64-puppet' },
   { :hostname => 'ubuntu1204',   :ip => '192.168.72.8',  :box => 'puppetlabs/ubuntu-12.04-64-puppet' },
   { :hostname => 'debian78pe',   :ip => '192.168.72.9',  :box => 'puppetlabs/debian-7.8-64-puppet-enterprise' },
-  { :hostname => 'debian78',     :ip => '192.168.72.10',  :box => 'puppetlabs/debian-7.8-64-puppet' },
+  { :hostname => 'debian78',     :ip => '192.168.72.10', :box => 'puppetlabs/debian-7.8-64-puppet' },
   { :hostname => 'debian6010',   :ip => '192.168.72.11', :box => 'puppetlabs/debian-6.0.10-64-puppet' },
 ]
 
