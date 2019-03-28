@@ -1,0 +1,7 @@
+<%- |
+  Auditd::WatchRule $rule,
+  Array[String] $default_keys,
+| -%>
+<% $rule['files'].each |$file| {-%>
+-w <%= $file %> <% if 'permissions' in $rule {-%> -p <%= $rule['permissions'].join('') %><% } -%><%= (pick($rule['keys'], []) + $default_keys).map |$key| {" -k ${key}"}.join('') %>
+<% } -%>
