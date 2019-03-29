@@ -1,0 +1,19 @@
+<%- |
+  String $comment,
+  Array[Variant[String[1],Auditd::WatchRule],1] $rules,
+  Array[String] $default_keys = [],
+| -%>
+# <%= $comment %>
+<% $rules.each |$rule| {-%>
+<%-
+  case $rule {
+    String: {
+      $keys = $default_keys.map |$key| {" -k ${key}"}.join('')
+      $rule_content = "${rule}${keys}"
+    }
+    Auditd::WatchRule: { $rule_content = epp('auditd/watch_rule.epp', {rule => $rule, default_keys => $default_keys } ).chomp }
+  }
+-%>
+<%= $rule_content %>
+<% } -%>
+
