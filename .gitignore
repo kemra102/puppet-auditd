@@ -18,6 +18,7 @@ tags
 pkg
 
 ## testing
+.bundle/
 Gemfile.lock
 spec/fixtures
 
