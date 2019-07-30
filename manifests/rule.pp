@@ -4,7 +4,7 @@
 
 define auditd::rule(
   String $content                          = '',
-  Variant[Integer, Patter[/^\d+$/]] $order = 10,
+  Variant[Integer, Pattern[/^\d+$/]] $order = 10,
 ) {
 
   if $content == '' {
