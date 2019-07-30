@@ -3,8 +3,8 @@
 ##    order:   Relative order of this rule
 
 define auditd::rule(
-  String $content                 = '',
-  Variant[Integer, String] $order = 10,
+  String $content                          = '',
+  Variant[Integer, Patter[/^\d+$/]] $order = 10,
 ) {
 
   if $content == '' {
