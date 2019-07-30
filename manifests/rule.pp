@@ -3,7 +3,7 @@
 ##    order:   Relative order of this rule
 
 define auditd::rule(
-  String $content                          = '',
+  String $content                           = '',
   Variant[Integer, Pattern[/^\d+$/]] $order = 10,
 ) {
 
