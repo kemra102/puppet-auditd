@@ -370,6 +370,7 @@ class auditd (
   $audisp_max_restarts     = $::auditd::params::audisp_max_restarts,
   $audisp_name_format      = $::auditd::params::audisp_name_format,
   $audisp_name             = $::auditd::params::audisp_name,
+  $has_audisp_config       = $::auditd::params::has_audisp_config,
 
   # Service management variables
   $manage_service          = $::auditd::params::manage_service,
@@ -463,7 +464,6 @@ class auditd (
     alias  => 'auditd',
     before => [
       File['/etc/audit/auditd.conf'],
-      File['/etc/audisp/audispd.conf'],
       Concat[$rules_file],
     ],
   }
@@ -500,12 +500,18 @@ class auditd (
     content => template('auditd/audit.rules.begin.fragment.erb'),
     order   => 0
   }
-  file { '/etc/audisp/audispd.conf':
-    ensure  => 'file',
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0640',
-    content => template('auditd/audispd.conf.erb'),
+  if($has_audisp_config) {
+    file { '/etc/audisp/audispd.conf':
+      ensure  => 'file',
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0640',
+      content => template('auditd/audispd.conf.erb'),
+      require => Package[$package_name],
+    }
+    if ($manage_service) {
+      File['/etc/audisp/audispd.conf'] ~> Service['auditd']
+    }
   }
 
   # If a hash of rules is supplied with class then call auditd::rules defined type to apply them
@@ -525,7 +531,6 @@ class auditd (
       stop      => $service_stop,
       subscribe => [
         File['/etc/audit/auditd.conf'],
-        File['/etc/audisp/audispd.conf'],
         Concat[$rules_file],
       ],
     }

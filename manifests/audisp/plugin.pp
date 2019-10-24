@@ -1,11 +1,11 @@
 define auditd::audisp::plugin (
-  $active    = true,
-  $direction = 'out',
-  $path      = undef,
-  $type      = 'always',
-  $args      = undef,
-  $format    = 'string',
-
+  $active     = true,
+  $direction  = 'out',
+  $path       = undef,
+  $type       = 'always',
+  $args       = undef,
+  $format     = 'string',
+  $audisp_dir = $::audisp::params::audisp_dir
 ) {
 
   validate_bool($active)
@@ -27,7 +27,7 @@ define auditd::audisp::plugin (
     $real_active = 'no'
   }
 
-  file { "/etc/audisp/plugins.d/${name}.conf":
+  file { "${audisp_dir}/plugins.d/${name}.conf":
     ensure  => 'file',
     owner   => 'root',
     group   => 'root',
