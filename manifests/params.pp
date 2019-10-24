@@ -7,6 +7,8 @@ class auditd::params {
       $audisp_package     = 'audispd-plugins'
       $manage_audit_files = false
       $rules_file         = '/etc/audit/rules.d/audit.rules'
+      $has_audisp_config  = true
+      $audisp_dir         = '/etc/audisp'
 
       case $::lsbmajdistrelease {
         '8': {
@@ -21,6 +23,8 @@ class auditd::params {
     }
     'Suse': {
       $package_name       = 'audit'
+      $has_audisp_config  = true
+      $audisp_dir         = '/etc/audisp'
       if versioncmp($::operatingsystemrelease, '12') >= 0 and $::operatingsystem == 'SLES' {
         $audisp_package     = 'audit-audispd-plugins'
         $manage_audit_files = true
@@ -41,6 +45,14 @@ class auditd::params {
       $audisp_package     = 'audispd-plugins'
       $manage_audit_files = true
 
+      if versioncmp($::operatingsystemrelease, '8') >= 0 {
+        $has_audisp_config = false
+        $audisp_dir        = '/etc/auditd'
+      } else {
+        $has_audisp_config = true
+        $audisp_dir        = '/etc/audisp'
+      }
+
       if $::operatingsystem != 'Amazon' and versioncmp($::operatingsystemrelease, '7') >= 0 {
         $rules_file      = '/etc/audit/rules.d/puppet.rules'
         $service_restart = '/usr/libexec/initscripts/legacy-actions/auditd/restart'
@@ -58,6 +70,8 @@ class auditd::params {
       $rules_file         = '/etc/audit/audit.rules'
       $service_restart    = '/usr/bin/kill -s SIGHUP $(cat /var/run/auditd.pid)'
       $service_stop       = '/usr/bin/kill -s SIGTERM $(cat /var/run/auditd.pid)'
+      $has_audisp_config  = true
+      $audisp_dir         = '/etc/audisp'
     }
     'Gentoo': {
       $package_name       = 'audit'
@@ -66,6 +80,8 @@ class auditd::params {
       $rules_file         = '/etc/audit/audit.rules'
       $service_restart    = '/etc/init.d/auditd restart'
       $service_stop       = '/etc/init.d/auditd stop'
+      $has_audisp_config  = true
+      $audisp_dir         = '/etc/audisp'
     }
     default: {
       fail("${::osfamily} is not supported by auditd")
