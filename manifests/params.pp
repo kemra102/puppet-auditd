@@ -105,9 +105,9 @@ class auditd::params {
   $log_format              = 'RAW'
   $log_group               = 'root'
   $write_logs              = undef
-  $priority_boost          = '4'
-  $freq                    = '20'
-  $num_logs                = '5'
+  $priority_boost          = 4
+  $freq                    = 20
+  $num_logs                = 5
   $disp_qos                = 'lossy'
   $dispatcher              = '/sbin/audispd'
   $name_format             = 'none'
