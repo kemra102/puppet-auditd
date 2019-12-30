@@ -10,13 +10,13 @@ class auditd::params {
 
       case $::operatingsystem {
         'Ubuntu': {
-          if versioncmp($::operatingsystemrelease, '18') >= 0 {
+          if versioncmp($::operatingsystemrelease, '18.04') >= 0 {
             $flush = 'incremental_async'
           } else {
             $flush = 'incremental'
           }
 
-          if versioncmp($::operatingsystemrelease, '16') >= 0 {
+          if versioncmp($::operatingsystemrelease, '16.04') >= 0 {
             $service_restart = '/bin/systemctl restart auditd'
             $service_stop    = '/bin/systemctl stop auditd'
           } else {
