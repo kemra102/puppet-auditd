@@ -47,7 +47,7 @@ class auditd::params {
 
       if versioncmp($::operatingsystemrelease, '8') >= 0 {
         $has_audisp_config = false
-        $audisp_dir        = '/etc/auditd'
+        $audisp_dir        = '/etc/audit'
       } else {
         $has_audisp_config = true
         $audisp_dir        = '/etc/audisp'
