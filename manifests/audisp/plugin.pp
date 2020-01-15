@@ -5,7 +5,7 @@ define auditd::audisp::plugin (
   $type       = 'always',
   $args       = undef,
   $format     = 'string',
-  $audisp_dir = $::audisp::params::audisp_dir
+  $audisp_dir = $::auditd::params::audisp_dir
 ) {
 
   validate_bool($active)
