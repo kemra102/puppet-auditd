@@ -40,3 +40,14 @@ krb5_principal = <%= @krb5_principal %>
 <% unless @krb5_key_file.nil? %>
 krb5_key_file = <%= @krb5_key_file %>
 <% end -%>
+<% unless @has_audisp_config %>
+# Audisp settings:
+q_depth = <%= @audisp_q_depth %>
+overflow_action = <%= @audisp_overflow_action %>
+priority_boost = <%= @audisp_priority_boost %>
+max_restarts = <%= @audisp_max_restarts %>
+name_format = <%= @audisp_name_format %>
+<% if @audisp_name %>
+name = <%= @audisp_name %>
+<% end -%>
+<% end %>
