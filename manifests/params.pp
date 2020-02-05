@@ -45,7 +45,7 @@ class auditd::params {
         $rules_file      = '/etc/audit/rules.d/puppet.rules'
         $service_restart = '/usr/libexec/initscripts/legacy-actions/auditd/restart'
         $service_stop    = '/usr/libexec/initscripts/legacy-actions/auditd/stop'
-      } elsif $::operatingsystem == 'Amazon' and versioncmp($::operatingsystemrelease, '2') >= 0 {
+      } elsif $::operatingsystem == 'Amazon' and $::operatingsystemmajrelease == '2' {
         #amazon linux 2 switched to systemd
         $rules_file      = '/etc/audit/rules.d/puppet.rules'
         $service_restart = '/usr/libexec/initscripts/legacy-actions/auditd/restart'
