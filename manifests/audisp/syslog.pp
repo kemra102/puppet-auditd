@@ -1,11 +1,13 @@
 class auditd::audisp::syslog (
   $args = 'LOG_INFO',
+  $path = $::auditd::params::syslog_path,
+  $type = $::auditd::params::syslog_type,
 
 ) {
 
   auditd::audisp::plugin { 'syslog':
-    path    => 'builtin_syslog',
-    type    => 'builtin',
+    path    => $path,
+    type    => $type,
     args    => $args,
     require => Package['auditd'],
   }
