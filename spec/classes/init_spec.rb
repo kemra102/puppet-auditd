@@ -1,5 +1,47 @@
 require 'spec_helper'
 describe 'auditd', :type => :class do
+  context 'default parameters on RedHat 8' do
+    let (:facts) {{
+      :osfamily               => 'RedHat',
+      :operatingsystem        => 'RedHat',
+      :operatingsystemrelease => '8',
+      :concat_basedir         => '/var/lib/puppet/concat',
+    }}
+    it {
+      should contain_class('auditd')
+      should contain_package('audit').with({
+        'ensure' => 'present',
+        'name'   => 'audit',
+      })
+      should contain_file('/etc/audit/auditd.conf').with({
+        'ensure' => 'file',
+        'owner'  => 'root',
+        'group'  => 'root',
+        'mode'   => '0640',
+      })
+      should contain_concat('/etc/audit/rules.d/puppet.rules').with({
+        'ensure'         => 'present',
+        'owner'          => 'root',
+        'group'          => 'root',
+        'mode'           => '0640',
+        'ensure_newline' => 'true',
+        'warn'           => 'true',
+      })
+      should_not contain_file('/etc/audisp/audispd.conf').with({
+        'ensure'  => 'file',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0640',
+      })
+      should contain_service('auditd').with({
+        'ensure'    => 'running',
+        'enable'    => 'true',
+        'hasstatus' => 'true',
+        'restart'   => '/usr/libexec/initscripts/legacy-actions/auditd/restart',
+        'stop'      => '/usr/libexec/initscripts/legacy-actions/auditd/stop',
+      })
+    }
+  end
   context 'default parameters on RedHat 7' do
     let (:facts) {{
       :osfamily               => 'RedHat',
@@ -29,6 +71,12 @@ describe 'auditd', :type => :class do
       })
       should_not contain_concat('/etc/audit/rules.d/puppet.rules').with({
         'alias' => 'audit-file',
+      })
+      should contain_file('/etc/audisp/audispd.conf').with({
+        'ensure'  => 'file',
+        'owner'   => 'root',
+        'group'   => 'root',
+        'mode'    => '0640',
       })
       should contain_service('auditd').with({
         'ensure'    => 'running',
