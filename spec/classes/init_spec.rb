@@ -150,6 +150,22 @@ describe 'auditd', :type => :class do
       should contain_file('/etc/audit/auditd.conf').with_content(/^flush = incremental_async$/)
     }
   end
+  context 'default parameteres on Ubuntu 20.04' do
+    let (:facts) {{
+      :osfamily               => 'Debian',
+      :operatingsystem        => 'Ubuntu',
+      :operatingsystemrelease => '20.04',
+      :concat_basedir         => '/var/lib/puppet/concat',
+    }}
+    it {
+      should contain_package('auditd').with_name('auditd')
+      should contain_service('auditd').with({
+        'restart' => '/bin/systemctl restart auditd',
+        'stop'    => '/bin/systemctl stop auditd',
+      })
+      should contain_file('/etc/audit/auditd.conf').with_content(/^flush = incremental_async$/)
+    }
+  end
   context 'default parameters on Archlinux' do
     let (:facts) {{
       :osfamily        => 'Archlinux',
