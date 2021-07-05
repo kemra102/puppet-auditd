@@ -105,33 +105,33 @@ class auditd::params {
   $log_format              = 'RAW'
   $log_group               = 'root'
   $write_logs              = undef
-  $priority_boost          = '4'
-  $freq                    = '20'
-  $num_logs                = '5'
+  $priority_boost          = 4
+  $freq                    = 20
+  $num_logs                = 5
   $disp_qos                = 'lossy'
   $dispatcher              = '/sbin/audispd'
   $name_format             = 'none'
   $admin                   = $::hostname
-  $max_log_file            = '6'
+  $max_log_file            = 6
   $max_log_file_action     = 'rotate'
-  $space_left              = '75'
+  $space_left              = 75
   $space_left_action       = 'syslog'
   $action_mail_acct        = 'root'
-  $admin_space_left        = '50'
+  $admin_space_left        = 50
   $admin_space_left_action = 'suspend'
   $disk_full_action        = 'suspend'
   $disk_error_action       = 'suspend'
   $tcp_listen_port         = undef
-  $tcp_listen_queue        = '5'
-  $tcp_max_per_addr        = '1'
+  $tcp_listen_queue        = 5
+  $tcp_max_per_addr        = 1
   $tcp_client_ports        = undef
-  $tcp_client_max_idle     = '0'
+  $tcp_client_max_idle     = 0
   $enable_krb5             = 'no'
   $krb5_principal          = 'auditd'
   $krb5_key_file           = undef
 
   # Rules Header variables
-  $buffer_size      = '8192'
+  $buffer_size      = 8192
   $continue_loading = false
 
   # Audisp main config variables
