@@ -8,19 +8,43 @@ class auditd::params {
       $manage_audit_files = false
       $rules_file         = '/etc/audit/rules.d/audit.rules'
 
-      case $::lsbmajdistrelease {
-        '8': {
-          $service_restart = '/bin/systemctl restart auditd'
-          $service_stop    = '/bin/systemctl stop auditd'
+      case $::operatingsystem {
+        'Ubuntu': {
+          if versioncmp($::operatingsystemrelease, '18.04') >= 0 {
+            $flush = 'incremental_async'
+          } else {
+            $flush = 'incremental'
+          }
+
+          if versioncmp($::operatingsystemrelease, '16.04') >= 0 {
+            $service_restart = '/bin/systemctl restart auditd'
+            $service_stop    = '/bin/systemctl stop auditd'
+          } else {
+            $service_restart = '/etc/init.d/auditd restart'
+            $service_stop    = '/etc/init.d/auditd stop'
+          }
         }
         default: {
-          $service_restart = '/etc/init.d/auditd restart'
-          $service_stop    = '/etc/init.d/auditd stop'
+          if versioncmp($::operatingsystemrelease, '10') >= 0 {
+            $flush = 'incremental_async'
+          } else {
+            $flush = 'incremental'
+          }
+
+          if versioncmp($::operatingsystemrelease, '8') >= 0 {
+            $service_restart = '/bin/systemctl restart auditd'
+            $service_stop    = '/bin/systemctl stop auditd'
+          } else {
+            $service_restart = '/etc/init.d/auditd restart'
+            $service_stop    = '/etc/init.d/auditd stop'
+          }
         }
       }
     }
     'Suse': {
-      $package_name       = 'audit'
+      $package_name = 'audit'
+      $flush        = 'incremental'
+
       if versioncmp($::operatingsystemrelease, '12') >= 0 and $::operatingsystem == 'SLES' {
         $audisp_package     = 'audit-audispd-plugins'
         $manage_audit_files = true
@@ -42,10 +66,12 @@ class auditd::params {
       $manage_audit_files = true
 
       if $::operatingsystem != 'Amazon' and versioncmp($::operatingsystemrelease, '7') >= 0 {
+        $flush           = 'incremental_async'
         $rules_file      = '/etc/audit/rules.d/puppet.rules'
         $service_restart = '/usr/libexec/initscripts/legacy-actions/auditd/restart'
         $service_stop    = '/usr/libexec/initscripts/legacy-actions/auditd/stop'
       } else {
+        $flush           = 'incremental'
         $rules_file      = '/etc/audit/audit.rules'
         $service_restart = '/etc/init.d/auditd restart'
         $service_stop    = '/etc/init.d/auditd stop'
@@ -54,6 +80,7 @@ class auditd::params {
     'Archlinux': {
       $package_name       = 'audit'
       $audisp_package     = 'audit'
+      $flush              = 'incremental'
       $manage_audit_files = false
       $rules_file         = '/etc/audit/audit.rules'
       $service_restart    = '/usr/bin/kill -s SIGHUP $(cat /var/run/auditd.pid)'
@@ -62,6 +89,7 @@ class auditd::params {
     'Gentoo': {
       $package_name       = 'audit'
       $audisp_package     = 'audit'
+      $flush              = 'incremental'
       $manage_audit_files = false
       $rules_file         = '/etc/audit/audit.rules'
       $service_restart    = '/etc/init.d/auditd restart'
@@ -77,34 +105,33 @@ class auditd::params {
   $log_format              = 'RAW'
   $log_group               = 'root'
   $write_logs              = undef
-  $priority_boost          = '4'
-  $flush                   = 'incremental_async'
-  $freq                    = '20'
-  $num_logs                = '5'
+  $priority_boost          = 4
+  $freq                    = 20
+  $num_logs                = 5
   $disp_qos                = 'lossy'
   $dispatcher              = '/sbin/audispd'
   $name_format             = 'none'
   $admin                   = $::hostname
-  $max_log_file            = '6'
+  $max_log_file            = 6
   $max_log_file_action     = 'rotate'
-  $space_left              = '75'
+  $space_left              = 75
   $space_left_action       = 'syslog'
   $action_mail_acct        = 'root'
-  $admin_space_left        = '50'
+  $admin_space_left        = 50
   $admin_space_left_action = 'suspend'
   $disk_full_action        = 'suspend'
   $disk_error_action       = 'suspend'
   $tcp_listen_port         = undef
-  $tcp_listen_queue        = '5'
-  $tcp_max_per_addr        = '1'
+  $tcp_listen_queue        = 5
+  $tcp_max_per_addr        = 1
   $tcp_client_ports        = undef
-  $tcp_client_max_idle     = '0'
+  $tcp_client_max_idle     = 0
   $enable_krb5             = 'no'
   $krb5_principal          = 'auditd'
   $krb5_key_file           = undef
 
   # Rules Header variables
-  $buffer_size      = '8192'
+  $buffer_size      = 8192
   $continue_loading = false
 
   # Audisp main config variables
